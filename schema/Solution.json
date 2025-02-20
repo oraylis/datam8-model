@@ -1,0 +1,82 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "basePath": {
+      "type": "string",
+      "default":  "Base"
+    },
+    "rawPath": {
+      "type": "string",
+      "default": "Raw"
+    },
+    "stagingPath": {
+      "type": "string",
+      "default": "Staging"
+    },
+    "corePath": {
+      "type": "string",
+      "default": "Core"
+    },
+    "curatedPath": {
+      "type": "string",
+      "default": "Curated"
+    },
+    "generatePath": {
+      "type": "string",
+      "default": "Generate"
+    },
+    "diagramPath": {
+      "type": "string",
+      "default": "Diagram"
+    },
+    "outputPath": {
+      "type": "string",
+      "default": "Output"
+    },
+    "AreaTypes": {
+      "type": "object",
+      "properties": {
+        "Raw": {
+          "type": "string",
+          "default": "Raw"
+        },
+        "Stage": {
+          "type": "string",
+          "default": "Stage"
+        },
+        "Core": {
+          "type": "string",
+          "default": "Core"
+        },
+        "Curated": {
+          "type": "string",
+          "default": "Curated"
+        },
+        "Diagram": {
+          "type": "string",
+          "default": "Diagram"
+        }
+
+      },
+      "required": [
+        "Raw",
+        "Stage",
+        "Core",
+        "Curated",
+        "Diagram"
+      ]
+    }
+  },
+  "required": [
+    "basePath",
+    "rawPath",
+    "stagingPath",
+    "corePath",
+    "generatePath",
+    "AreaTypes",
+    "outputPath",
+    "diagramPath",
+    "curatedPath"
+  ]
+}

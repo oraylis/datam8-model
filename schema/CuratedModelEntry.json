@@ -1,0 +1,91 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "curated"
+      ]
+    },
+    "entity": {
+      "$ref": "CoreModelEntry.json#/definitions/CoreEntity"
+    },
+    "function": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CuratedFunction"
+      }
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "definitions": {
+    "ComputationSourceEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8l"
+      ],
+      "properties": {
+        "dm8l": {
+          "type": "string"
+        }
+      }
+    },
+    "CuratedFunction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "merge_type",
+        "frequency"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of function"
+        },
+        "merge_type": {
+          "type": "string",
+          "enum": [
+            "self",
+            "partition",
+            "merge",
+            "replace"
+          ],
+          "description": "Merge type\n  - self=responsibility of function;\n  - partition=replace changed partition completely;\n  - merge=merge on primary key;\n  - replace=full replacement"
+        },
+        "frequency": {
+          "type": "string",
+          "enum": [
+            "no_restriction",
+            "daily",
+            "weekly",
+            "monthly",
+            "yearly"
+          ],
+          "description": "Frequency of execution (not a schedule).\n The function is only executed once day/week/mounth/year"
+        },
+        "frequency_reference": {
+          "type": "string",
+          "description": "Depending on the value of the frequency for\n  -no_restriction->nothing;\n  - daily=time; weekly=weekday(+time);\n  - monthly=day of month(+time);\n  - yearly=day+month(+time)"
+        },
+        "source": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/ComputationSourceEntity"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

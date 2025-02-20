@@ -1,0 +1,84 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "attributeType"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AttributeType"
+      }
+    }
+  },
+  "definitions": {
+    "AttributeType": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "defaultType": {
+          "type": "string"
+        },
+        "defaultLength": {
+          "type": "integer"
+        },
+        "defaultPrecision": {
+          "type": "integer"
+        },
+        "defaultScale": {
+          "type": "integer"
+        },
+        "hasUnit": {
+          "enum": [
+            "NoUnit",
+            "Physical",
+            "Currency",
+            "UnitFree"
+          ],
+          "type": "string"
+        },
+        "isUnit": {
+          "enum": [
+            "NoUnit",
+            "Physical",
+            "Currency"
+          ],
+          "type": "string"
+        },
+        "canBeInRelation": {
+          "type": "boolean",
+          "default": "False"
+        },
+        "isDefaultProperty": {
+          "type": "boolean",
+          "default": "False"
+        }
+      },
+      "required": [
+        "name",
+        "displayName",
+        "defaultType"
+      ]
+    }
+  }
+}

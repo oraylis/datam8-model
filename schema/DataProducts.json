@@ -1,0 +1,65 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "dataProduct"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DataProduct"
+      }
+    }
+  },
+  "definitions": {
+    "DataProduct": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "module": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataModule"
+          }
+        }
+      }
+    },
+    "DataModule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

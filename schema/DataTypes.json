@@ -1,0 +1,62 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "dataType"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DataType"
+      }
+    }
+  },
+  "definitions": {
+    "DataType": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "parquetType",
+        "sqlType"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "hasCharLen": {
+          "type": "boolean",
+          "default": "False"
+        },
+        "hasPrecision": {
+          "type": "boolean",
+          "default": "False"
+        },
+        "hasScale": {
+          "type": "boolean",
+          "default": "False"
+        },
+        "parquetType": {
+          "type": "string"
+        },
+        "sqlType": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

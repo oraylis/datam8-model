@@ -1,0 +1,158 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "raw"
+      ]
+    },
+    "entity": {
+      "$ref": "#/definitions/RawEntity"
+    },
+    "function": {
+      "$ref": "#/definitions/RawFunction"
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "definitions": {
+    "Parameter": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "RawEntity": {
+      "additionalProperties": false,
+      "type": "object",
+      "x-typeName": "RawEntity",
+      "title": "Raw Entity",
+      "required": [
+        "dataModule",
+        "dataProduct",
+        "name",
+        "displayName"
+      ],
+      "properties": {
+        "dataModule": {
+          "type": "string"
+        },
+        "dataProduct": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Parameter"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attribute": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/Attribute"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "charLength": {
+          "type": "integer"
+        },
+        "charSet": {
+          "type": "string"
+        },
+        "precision": {
+          "type": "integer"
+        },
+        "scale": {
+          "type": "integer"
+        },
+        "nullable": {
+          "type": "boolean"
+        },
+        "unitName": {
+          "type": "string"
+        },
+        "unitType": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dateModified": {
+          "type": "string"
+        },
+        "dateDeleted": {
+          "type": "string"
+        }
+      }
+    },
+    "RawFunction": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "dataSource": {
+          "type": "string"
+        },
+        "sourceLocation": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "dataSource"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DataSource"
+      }
+    }
+  },
+  "definitions": {
+    "DataSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "connectionString": {
+          "type": "string"
+        },
+        "dataTypeMapping": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceType": {
+                "type": "string"
+              },
+              "targetType": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

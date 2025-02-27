@@ -1,0 +1,294 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "./CoreModelEntry.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "core"
+      ]
+    },
+    "entity": {
+      "$ref": "#/definitions/CoreEntity"
+    },
+    "function": {
+      "$ref": "#/definitions/CoreFunction"
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "definitions": {
+    "Parameter": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "Attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "attributeType": {
+          "type": "string"
+        },
+        "dataType": {
+          "type": "string"
+        },
+        "businessKeyNo": {
+          "type": "integer"
+        },
+        "alternateKeyGroup": {
+          "type": "string"
+        },
+        "alternateKeyNo": {
+          "type": "integer"
+        },
+        "charLength": {
+          "type": "integer"
+        },
+        "charSet": {
+          "type": "string"
+        },
+        "precision": {
+          "type": "integer"
+        },
+        "scale": {
+          "type": "integer"
+        },
+        "nullable": {
+          "type": "boolean"
+        },
+        "unitAttribute": {
+          "type": "string"
+        },
+        "parameter": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Parameter"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "refactorNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "history": {
+          "enum": [
+            "SCD0",
+            "SCD1",
+            "SCD2",
+            "BK",
+            "SK",
+            "SCD1_TIMESTAMP"
+          ],
+          "type": "string",
+          "default": "SCD1"
+        }
+      }
+    },
+    "RelationshipField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8lAttr",
+        "dm8lKeyAttr"
+      ],
+      "properties": {
+        "dm8lAttr": {
+          "type": "string"
+        },
+        "dm8lKeyAttr": {
+          "type": "string"
+        }
+      }
+    },
+    "Relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8lKey",
+        "role"
+      ],
+      "properties": {
+        "dm8lKey": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RelationshipField"
+          }
+        }
+      }
+    },
+    "CoreEntity": {
+      "required": [
+        "dataModule",
+        "dataProduct",
+        "name",
+        "displayName"
+      ],
+      "properties": {
+        "dataModule": {
+          "type": "string"
+        },
+        "dataProduct": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "extensionOf": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Parameter"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attribute": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Attribute"
+          }
+        },
+        "relationship": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Relationship"
+          }
+        },
+        "refactorNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SourceEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8l"
+      ],
+      "properties": {
+        "dm8l": {
+          "type": "string"
+        },
+        "filter": {
+          "type": "string"
+        },
+        "mapping": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sourceName"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "sourceComputation": {
+                "type": "string"
+              },
+              "sourceName": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "CoreFunction": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "fileType": {
+          "type": "string"
+        },
+        "storageType": {
+          "type": "string"
+        },
+        "processingMethod": {
+          "type": "string"
+        },
+        "deltaExpression": {
+          "type": "string"
+        },
+        "filterStatement": {
+          "type": "string"
+        },
+        "source": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/SourceEntity"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

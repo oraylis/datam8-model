@@ -1,0 +1,80 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "rawIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndexEntry"
+          }
+        }
+      }
+    },
+    "stageIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndexEntry"
+          }
+        }
+      }
+    },
+    "coreIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndexEntry"
+          }
+        }
+      }
+    },
+    "curatedIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndexEntry"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "IndexEntry": {
+      "required": [
+        "name",
+        "locator",
+        "absPath"
+      ],
+      "properties": {
+        "locator": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "absPath": {
+          "type": "string"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

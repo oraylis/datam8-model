@@ -36,6 +36,9 @@
         },
         "value": {
           "type": "string"
+        },
+        "custom": {
+          "type": "object"
         }
       }
     },

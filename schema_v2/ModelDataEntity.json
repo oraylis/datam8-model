@@ -1,0 +1,414 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "ModelDataEntity.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "enum": [
+        "raw",
+        "stage",
+        "core",
+        "curated"
+      ]
+    },
+    "entity": {
+      "$ref": "#/definitions/DataEntity"
+    },
+    "functions": {
+      "additionalProperties": false,
+      "required": [
+        "trigger",
+        "store",
+        "sources"
+      ],
+      "properties": {
+        "trigger": {
+          "type": "object",
+          "$ref": "#/definitions/Functions_Trigger"
+        },
+        "store": {
+          "type": "object",
+          "$ref": "#/definitions/Functions_Store"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Functions_KnownSource"
+          }
+        },
+        "transformations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Functions_KnownTransformation"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "type",
+    "entity",
+    "functions"
+  ],
+  "definitions": {
+    "Parameter": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "Attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ordinalNumber",
+        "name",
+        "dataType"
+      ],
+      "properties": {
+        "ordinalNumber": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "dataType": {
+          "type": "string"
+        },
+        "charLength": {
+          "type": "integer"
+        },
+        "charSet": {
+          "type": "string"
+        },
+        "precision": {
+          "type": "integer"
+        },
+        "scale": {
+          "type": "integer"
+        },
+        "nullable": {
+          "type": "boolean"
+        },
+        "dateModified": {
+          "type": "string"
+        },
+        "dateDeleted": {
+          "type": "string"
+        },
+        "parameter": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Parameter"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "refactorNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "history": {
+          "enum": [
+            "SCD0",
+            "SCD1",
+            "SCD2",
+            "BK",
+            "SK",
+            "SCD1_TIMESTAMP"
+          ],
+          "type": "string",
+          "default": "SCD1"
+        }
+      }
+    },
+    "RelationshipField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8lAttr",
+        "dm8lKeyAttr"
+      ],
+      "properties": {
+        "dm8lAttr": {
+          "type": "string"
+        },
+        "dm8lKeyAttr": {
+          "type": "string"
+        }
+      }
+    },
+    "Relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8lKey",
+        "role"
+      ],
+      "properties": {
+        "dm8lKey": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RelationshipField"
+          }
+        }
+      }
+    },
+    "DataEntity": {
+      "additionalItems": false,
+      "required": [
+        "dataModule",
+        "dataProduct",
+        "name",
+        "displayName"
+      ],
+      "properties": {
+        "dataModule": {
+          "type": "string"
+        },
+        "dataProduct": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "extensionOf": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Parameter"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attribute": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Attribute"
+          }
+        },
+        "relationship": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Relationship"
+          }
+        },
+        "refactorNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Functions_Trigger": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "schedule", 
+            "module",
+            "event",
+            "children"
+          ]
+        }
+      }
+    },
+    "Functions_Store": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "history",
+            "overwrite",
+            "snapshot"
+          ]
+        }
+      }
+    },
+    "Functions_KnownSource": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Functions_SourceSource"
+        },
+        {
+          "$ref": "#/definitions/Functions_SourceModel"
+        }
+      ]
+    },
+    "Functions_SourceSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "dataSource",
+        "sourceLocation",
+        "mapping"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "source"
+          ]
+        },
+        "dataSource": {
+          "type": "string"
+        },
+        "sourceLocation": {
+          "type": "string"
+        },
+        "mapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Functions_Mapping"
+          }
+        }
+      }
+    },
+    "Functions_SourceModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "dm8l",
+        "mapping"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "model"
+          ]
+        },
+        "dm8l": {
+          "type": "string"
+        },
+        "mapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Functions_Mapping"
+          }
+        }
+      }
+    },
+    "Functions_Mapping": {
+      "type": "object",
+      "required": [
+        "targetName",
+        "sourceName"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "targetName": {
+          "type": "string"
+        },
+        "sourceName": {
+          "type": "string"
+        }
+      }
+    },
+    "Functions_KnownTransformation": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Functions_TransformationCustom"
+        },
+        {
+          "$ref": "#/definitions/Functions_TransformationBuildIn"
+        }
+      ]
+    },
+    "Functions_TransformationCustom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepNo",
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "stepNo": {
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "custom"
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Functions_TransformationBuildIn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepNo",
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "stepNo": {
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "buildin"
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

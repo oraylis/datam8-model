@@ -279,14 +279,14 @@
     "Functions_KnownSource": {
       "oneOf": [
         {
-          "$ref": "#/definitions/Functions_SourceSource"
+          "$ref": "#/definitions/Functions_SourceSystem"
         },
         {
           "$ref": "#/definitions/Functions_SourceModel"
         }
       ]
     },
-    "Functions_SourceSource": {
+    "Functions_SourceSystem": {
       "type": "object",
       "additionalProperties": false,
       "required": [

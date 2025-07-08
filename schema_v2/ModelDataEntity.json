@@ -19,6 +19,7 @@
       "additionalProperties": false,
       "required": [
         "trigger",
+        "load",
         "store",
         "sources"
       ],
@@ -26,6 +27,10 @@
         "trigger": {
           "type": "object",
           "$ref": "#/definitions/Functions_Trigger"
+        },
+        "load": {
+          "type": "object",
+          "$ref": "#/definitions/Functions_Load"
         },
         "store": {
           "type": "object",
@@ -87,10 +92,7 @@
         "displayName": {
           "type": "string"
         },
-        "purpose": {
-          "type": "string"
-        },
-        "explanation": {
+        "description": {
           "type": "string"
         },
         "dataType": {
@@ -205,16 +207,10 @@
         "name": {
           "type": "string"
         },
-        "extensionOf": {
-          "type": "string"
-        },
         "displayName": {
           "type": "string"
         },
-        "purpose": {
-          "type": "string"
-        },
-        "explanation": {
+        "description": {
           "type": "string"
         },
         "parameters": {
@@ -259,6 +255,19 @@
             "module",
             "event",
             "children"
+          ]
+        }
+      }
+    },
+    "Functions_Load": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "full",
+            "incremental",
+            "period"
           ]
         }
       }

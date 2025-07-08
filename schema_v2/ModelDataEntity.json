@@ -6,7 +6,7 @@
   "properties": {
     "type": {
       "enum": [
-        "raw",
+        "entity",
         "stage",
         "core",
         "curated"

@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "dataSourceTypes"
+      ]
+    },
+    "sourceTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DataSourceType"
+      }
+    }
+  },
+  "required": [
+    "type",
+    "sourceTypes"
+  ],
+  "definitions": {
+    "DataSourceType": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the data source type (e.g., SqlDataSource, LakeSource)"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-readable display name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the data source type"
+        },
+        "dataTypeMapping": {
+          "type": "array",
+          "description": "Default data type mappings for this source type",
+          "items": {
+            "$ref": "#/definitions/DataTypeMapping"
+          }
+        },
+        "connectionProperties": {
+          "type": "array",
+          "description": "Required connection properties for this source type",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": ["name", "required"]
+          }
+        }
+      },
+      "required": [
+        "name",
+        "displayName",
+        "description"
+      ]
+    },
+    "DataTypeMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceType": {
+          "type": "string",
+          "description": "Source system data type"
+        },
+        "targetType": {
+          "type": "string",
+          "description": "Target system data type"
+        }
+      },
+      "required": [
+        "sourceType",
+        "targetType"
+      ]
+    }
+  }
+}

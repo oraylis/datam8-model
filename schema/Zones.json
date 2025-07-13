@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "zones"
+      ]
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Zone"
+      }
+    }
+  },
+  "required": [
+    "type",
+    "zones"
+  ],
+  "definitions": {
+    "Zone": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Logical name of the zone (e.g., Raw, Core, Curated)"
+        },
+        "targeName": {
+          "type": "string",
+          "description": "Target system name for the zone (e.g., Bronze, Silver, Gold)"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-readable display name"
+        },
+        "localFolderName": {
+          "type": "string",
+          "description": "Local folder name used in file system structure"
+        }
+      },
+      "required": [
+        "name",
+        "targeName",
+        "displayName",
+        "localFolderName"
+      ]
+    }
+  }
+}

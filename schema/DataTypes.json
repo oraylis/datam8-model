@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "additionalProperties": false,
@@ -35,8 +35,32 @@
         "displayName": {
           "type": "string"
         },
-        "purpose": {
+        "description": {
           "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ]
+          }
         },
         "hasCharLen": {
           "type": "boolean",

@@ -1,26 +1,23 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "description": "Version of the schema for validation and migration support"
+    },
+    "modelPath": {
+      "type": "string",
+      "default": "Model",
+      "description": "Root path for model entities, replacing zone-specific paths"
+    },
     "basePath": {
       "type": "string",
-      "default":  "Base"
-    },
-    "rawPath": {
-      "type": "string",
-      "default": "Raw"
-    },
-    "stagingPath": {
-      "type": "string",
-      "default": "Staging"
-    },
-    "corePath": {
-      "type": "string",
-      "default": "Core"
-    },
-    "curatedPath": {
-      "type": "string",
-      "default": "Curated"
+      "default": "Base"
     },
     "generatePath": {
       "type": "string",
@@ -33,50 +30,14 @@
     "outputPath": {
       "type": "string",
       "default": "Output"
-    },
-    "AreaTypes": {
-      "type": "object",
-      "properties": {
-        "Raw": {
-          "type": "string",
-          "default": "Raw"
-        },
-        "Stage": {
-          "type": "string",
-          "default": "Stage"
-        },
-        "Core": {
-          "type": "string",
-          "default": "Core"
-        },
-        "Curated": {
-          "type": "string",
-          "default": "Curated"
-        },
-        "Diagram": {
-          "type": "string",
-          "default": "Diagram"
-        }
-
-      },
-      "required": [
-        "Raw",
-        "Stage",
-        "Core",
-        "Curated",
-        "Diagram"
-      ]
     }
   },
   "required": [
+    "schemaVersion",
     "basePath",
-    "rawPath",
-    "stagingPath",
-    "corePath",
+    "modelPath",
     "generatePath",
-    "AreaTypes",
     "outputPath",
-    "diagramPath",
-    "curatedPath"
+    "diagramPath"
   ]
 }

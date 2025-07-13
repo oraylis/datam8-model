@@ -1,0 +1,439 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "./ModelDataEntity.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "entity"
+      ]
+    },
+    "entity": {
+      "$ref": "#/definitions/DataEntity"
+    },
+    "functions": {
+      "$ref": "#/definitions/EntityFunctions"
+    }
+  },
+  "required": [
+    "type",
+    "entity"
+  ],
+  "definitions": {
+    "Parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "custom": {
+          "type": "object"
+        }
+      }
+    },
+    "Attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "attributeType": {
+          "type": "string"
+        },
+        "dataType": {
+          "type": "string"
+        },
+        "businessKeyNo": {
+          "type": "integer"
+        },
+        "alternateKeyGroup": {
+          "type": "string"
+        },
+        "alternateKeyNo": {
+          "type": "integer"
+        },
+        "charLength": {
+          "type": "integer"
+        },
+        "charSet": {
+          "type": "string"
+        },
+        "precision": {
+          "type": "integer"
+        },
+        "scale": {
+          "type": "integer"
+        },
+        "nullable": {
+          "type": "boolean"
+        },
+        "unitAttribute": {
+          "type": "string"
+        },
+        "parameter": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Parameter"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "refactorNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "history": {
+          "enum": [
+            "SCD0",
+            "SCD1",
+            "SCD2",
+            "BK",
+            "SK",
+            "SCD1_TIMESTAMP"
+          ],
+          "type": "string",
+          "default": "SCD1"
+        },
+        "dateModified": {
+          "type": "string"
+        },
+        "dateDeleted": {
+          "type": "string"
+        }
+      }
+    },
+    "RelationshipField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8lAttr",
+        "dm8lKeyAttr"
+      ],
+      "properties": {
+        "dm8lAttr": {
+          "type": "string"
+        },
+        "dm8lKeyAttr": {
+          "type": "string"
+        }
+      }
+    },
+    "Relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8lKey",
+        "role"
+      ],
+      "properties": {
+        "dm8lKey": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RelationshipField"
+          }
+        }
+      }
+    },
+    "DataEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "displayName"
+      ],
+      "properties": {
+        "dataModule": {
+          "type": "string",
+          "description": "DEPRECATED: Will be derived from file path in v2. Kept for transition compatibility."
+        },
+        "dataProduct": {
+          "type": "string",
+          "description": "DEPRECATED: Will be derived from file path in v2. Kept for transition compatibility."
+        },
+        "name": {
+          "type": "string"
+        },
+        "extensionOf": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Parameter"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attribute": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Attribute"
+          }
+        },
+        "relationship": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Relationship"
+          }
+        },
+        "refactorNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "EntityFunctions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "trigger": {
+          "$ref": "#/definitions/TriggerFunction"
+        },
+        "load": {
+          "$ref": "#/definitions/LoadFunction"
+        },
+        "store": {
+          "$ref": "#/definitions/StoreFunction"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SourceFunction"
+          }
+        },
+        "transformations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TransformationFunction"
+          }
+        }
+      }
+    },
+    "TriggerFunction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "schedule",
+            "module",
+            "event",
+            "children"
+          ]
+        }
+      }
+    },
+    "LoadFunction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "full",
+            "incremental",
+            "period"
+          ]
+        }
+      }
+    },
+    "StoreFunction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "history",
+            "overwrite",
+            "snapshot"
+          ]
+        }
+      }
+    },
+    "SourceFunction": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/SystemSource"
+        },
+        {
+          "$ref": "#/definitions/ModelSource"
+        }
+      ]
+    },
+    "SystemSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "dataSource",
+        "sourceLocation"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "source"
+          ]
+        },
+        "dataSource": {
+          "type": "string"
+        },
+        "sourceLocation": {
+          "type": "string"
+        },
+        "filter": {
+          "type": "string"
+        },
+        "mapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttributeMapping"
+          }
+        }
+      }
+    },
+    "ModelSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "dm8l"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "model"
+          ]
+        },
+        "dm8l": {
+          "type": "string"
+        },
+        "filter": {
+          "type": "string"
+        },
+        "mapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttributeMapping"
+          }
+        }
+      }
+    },
+    "AttributeMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceName"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "sourceComputation": {
+          "type": "string"
+        },
+        "sourceName": {
+          "type": "string"
+        }
+      }
+    },
+    "TransformationFunction": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/CustomTransformation"
+        },
+        {
+          "$ref": "#/definitions/BuiltInTransformation"
+        }
+      ]
+    },
+    "CustomTransformation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepNo",
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "stepNo": {
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "custom"
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "BuiltInTransformation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepNo",
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "stepNo": {
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "builtin"
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

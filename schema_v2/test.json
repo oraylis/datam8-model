@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oraylis/datam8-model/refs/heads/test/json-schema-references/schema_v2/test_entity.json",
+  "type": "entity",
+  "parameters": [
+    {
+      "name": "test",
+      "value": true
+    }
+  ]
+}

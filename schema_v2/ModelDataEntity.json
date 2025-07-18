@@ -1,6 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "ModelDataEntity.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://datam8.org/schemas/model/entity",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -57,23 +57,7 @@
     "functions"
   ],
   "definitions": {
-    "Parameter": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "value"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        }
-      }
-    },
+    "Parameter": { "$ref": "/schemas/model/parameter" },
     "Attribute": {
       "type": "object",
       "additionalProperties": false,
@@ -251,7 +235,7 @@
       "properties": {
         "mode": {
           "enum": [
-            "schedule", 
+            "schedule",
             "module",
             "event",
             "children"

@@ -456,7 +456,7 @@
       "additionalProperties": false,
       "required": [
         "type",
-        "dm8l"
+        "model"
       ],
       "properties": {
         "type": {
@@ -464,10 +464,22 @@
             "model"
           ]
         },
-        "dm8l": {
-          "type": "string"
+        "model": {
+          "$ref": "#/definitions/ModelConfig"
         },
         "filter": {
+          "type": "string"
+        }
+      }
+    },
+    "ModelConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dm8l"
+      ],
+      "properties": {
+        "dm8l": {
           "type": "string"
         },
         "mapping": {
@@ -506,6 +518,9 @@
         },
         {
           "$ref": "#/definitions/BuiltInTransformation"
+        },
+        {
+          "$ref": "#/definitions/FunctionTransformation"
         }
       ]
     },
@@ -549,6 +564,44 @@
           ]
         },
         "name": {
+          "type": "string"
+        }
+      }
+    },
+    "FunctionTransformation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepNo",
+        "kind",
+        "name",
+        "function"
+      ],
+      "properties": {
+        "stepNo": {
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "function"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "function": {
+          "$ref": "#/definitions/FunctionConfig"
+        }
+      }
+    },
+    "FunctionConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "source": {
           "type": "string"
         }
       }

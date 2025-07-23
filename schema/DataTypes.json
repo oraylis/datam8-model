@@ -11,7 +11,7 @@
         "dataType"
       ]
     },
-    "items": {
+    "dataTypes": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/DataType"

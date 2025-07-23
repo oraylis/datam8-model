@@ -8,10 +8,10 @@
     },
     "type": {
       "enum": [
-        "dataSourceTypes"
+        "dataSourceType"
       ]
     },
-    "sourceTypes": {
+    "dataSourceTypes": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/DataSourceType"
@@ -20,7 +20,7 @@
   },
   "required": [
     "type",
-    "sourceTypes"
+    "dataSourceTypes"
   ],
   "definitions": {
     "DataSourceType": {

@@ -11,7 +11,7 @@
         "dataSource"
       ]
     },
-    "items": {
+    "dataSources": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/DataSource"
@@ -80,6 +80,13 @@
               "sourceType",
               "targetType"
             ]
+          }
+        },
+        "ExtendedProperties": {
+          "type": "object",
+          "description": "Additional properties specific to the data source",
+          "additionalProperties": {
+            "type": "string"
           }
         }
       }

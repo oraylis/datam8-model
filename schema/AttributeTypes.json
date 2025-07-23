@@ -8,10 +8,10 @@
     },
     "type": {
       "enum": [
-        "attributeType"
+        "attributeTypes"
       ]
     },
-    "items": {
+    "attributeTypes": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/AttributeType"

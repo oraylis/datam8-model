@@ -65,6 +65,9 @@
         "dataType": {
           "type": "string"
         },
+        "ordinalNumber": {
+          "type": "integer"
+        },
         "businessKeyNo": {
           "type": "integer"
         },
@@ -110,7 +113,7 @@
             "type": "string"
           }
         },
-        "history": {
+        "type": {
           "enum": [
             "SCD0",
             "SCD1",
@@ -266,6 +269,24 @@
             "event",
             "children"
           ]
+        },
+        "schedule": {
+          "$ref": "#/definitions/ScheduleConfig"
+        }
+      }
+    },
+    "ScheduleConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cronExpression": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "maxRetries": {
+          "type": "integer"
         }
       }
     },
@@ -292,6 +313,57 @@
             "overwrite",
             "snapshot"
           ]
+        },
+        "write_mode": {
+          "type": "string"
+        },
+        "merge": {
+          "$ref": "#/definitions/MergeConfig"
+        },
+        "layout": {
+          "$ref": "#/definitions/LayoutConfig"
+        },
+        "maintenance": {
+          "$ref": "#/definitions/MaintenanceConfig"
+        }
+      }
+    },
+    "MergeConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "business_key": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sequential": {
+          "type": "boolean"
+        }
+      }
+    },
+    "LayoutConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MaintenanceConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "retention": {
+          "type": "string"
         }
       }
     },
@@ -310,8 +382,7 @@
       "additionalProperties": false,
       "required": [
         "type",
-        "dataSource",
-        "sourceLocation"
+        "source"
       ],
       "properties": {
         "type": {
@@ -319,6 +390,19 @@
             "source"
           ]
         },
+        "source": {
+          "$ref": "#/definitions/SourceConfig"
+        }
+      }
+    },
+    "SourceConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataSource",
+        "sourceLocation"
+      ],
+      "properties": {
         "dataSource": {
           "type": "string"
         },
@@ -328,11 +412,42 @@
         "filter": {
           "type": "string"
         },
+        "extract": {
+          "$ref": "#/definitions/ExtractConfig"
+        },
         "mapping": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/AttributeMapping"
           }
+        }
+      }
+    },
+    "ExtractConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "full",
+            "delta"
+          ]
+        },
+        "full": {
+          "type": "object",
+          "additionalProperties": false
+        },
+        "delta": {
+          "$ref": "#/definitions/DeltaConfig"
+        }
+      }
+    },
+    "DeltaConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "column": {
+          "type": "string"
         }
       }
     },
@@ -371,6 +486,9 @@
       ],
       "properties": {
         "name": {
+          "type": "string"
+        },
+        "targetName": {
           "type": "string"
         },
         "sourceComputation": {

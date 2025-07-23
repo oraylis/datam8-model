@@ -106,7 +106,8 @@
         },
         "type": {
           "enum": [
-            "SCD1",
+            "SCD0",
+            "SCD1", 
             "SCD2",
             "BK",
             "SK"

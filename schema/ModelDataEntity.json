@@ -68,15 +68,6 @@
         "ordinalNumber": {
           "type": "integer"
         },
-        "businessKeyNo": {
-          "type": "integer"
-        },
-        "alternateKeyGroup": {
-          "type": "string"
-        },
-        "alternateKeyNo": {
-          "type": "integer"
-        },
         "charLength": {
           "type": "integer"
         },
@@ -115,12 +106,10 @@
         },
         "type": {
           "enum": [
-            "SCD0",
             "SCD1",
             "SCD2",
             "BK",
-            "SK",
-            "SCD1_TIMESTAMP"
+            "SK"
           ],
           "type": "string",
           "default": "SCD1"
@@ -133,44 +122,6 @@
         }
       }
     },
-    "RelationshipField": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "dm8lAttr",
-        "dm8lKeyAttr"
-      ],
-      "properties": {
-        "dm8lAttr": {
-          "type": "string"
-        },
-        "dm8lKeyAttr": {
-          "type": "string"
-        }
-      }
-    },
-    "Relationship": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "dm8lKey",
-        "role"
-      ],
-      "properties": {
-        "dm8lKey": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "fields": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RelationshipField"
-          }
-        }
-      }
-    },
     "DataEntity": {
       "type": "object",
       "additionalProperties": false,
@@ -179,14 +130,6 @@
         "displayName"
       ],
       "properties": {
-        "dataModule": {
-          "type": "string",
-          "description": "DEPRECATED: Will be derived from file path in v2. Kept for transition compatibility."
-        },
-        "dataProduct": {
-          "type": "string",
-          "description": "DEPRECATED: Will be derived from file path in v2. Kept for transition compatibility."
-        },
         "name": {
           "type": "string"
         },
@@ -216,18 +159,6 @@
           "items": {
             "$ref": "#/definitions/Attribute"
           }
-        },
-        "relationship": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Relationship"
-          }
-        },
-        "refactorNames": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },
@@ -237,9 +168,6 @@
       "properties": {
         "trigger": {
           "$ref": "#/definitions/TriggerFunction"
-        },
-        "load": {
-          "$ref": "#/definitions/LoadFunction"
         },
         "store": {
           "$ref": "#/definitions/StoreFunction"
@@ -287,19 +215,6 @@
         },
         "maxRetries": {
           "type": "integer"
-        }
-      }
-    },
-    "LoadFunction": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "mode": {
-          "enum": [
-            "full",
-            "incremental",
-            "period"
-          ]
         }
       }
     },

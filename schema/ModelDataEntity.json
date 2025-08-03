@@ -25,23 +25,7 @@
   ],
   "definitions": {
     "Parameter": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "value"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        },
-        "custom": {
-          "type": "object"
-        }
-      }
+      "$ref": "./common/Parameter.json"
     },
     "Attribute": {
       "type": "object",
@@ -407,25 +391,7 @@
       }
     },
     "AttributeMapping": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "sourceName"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "targetName": {
-          "type": "string"
-        },
-        "sourceComputation": {
-          "type": "string"
-        },
-        "sourceName": {
-          "type": "string"
-        }
-      }
+      "$ref": "./common/AttributeMapping.json"
     },
     "TransformationFunction": {
       "oneOf": [

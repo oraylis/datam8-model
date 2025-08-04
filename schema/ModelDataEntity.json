@@ -27,11 +27,37 @@
     "Parameter": {
       "$ref": "./common/Parameter.json"
     },
+    "DataTypeObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "nullable"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "nullable": {
+          "type": "boolean"
+        },
+        "charLen": {
+          "type": "integer"
+        },
+        "precision": {
+          "type": "integer"
+        },
+        "scale": {
+          "type": "integer"
+        }
+      }
+    },
     "Attribute": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "name"
+        "name",
+        "targetDataType"
       ],
       "properties": {
         "name": {
@@ -46,8 +72,11 @@
         "attributeType": {
           "type": "string"
         },
-        "dataType": {
-          "type": "string"
+        "targetDataType": {
+          "$ref": "#/definitions/DataTypeObject"
+        },
+        "sourceDataType": {
+          "$ref": "#/definitions/DataTypeObject"
         },
         "ordinalNumber": {
           "type": "integer"

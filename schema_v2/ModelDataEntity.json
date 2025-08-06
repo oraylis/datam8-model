@@ -1,15 +1,16 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "ModelDataEntity.json",
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
     "type": {
       "enum": [
-        "entity",
-        "stage",
-        "core",
-        "curated"
+        "entity"
       ]
     },
     "entity": {
@@ -17,12 +18,6 @@
     },
     "functions": {
       "additionalProperties": false,
-      "required": [
-        "trigger",
-        "load",
-        "store",
-        "sources"
-      ],
       "properties": {
         "trigger": {
           "type": "object",
@@ -53,8 +48,7 @@
   },
   "required": [
     "type",
-    "entity",
-    "functions"
+    "entity"
   ],
   "definitions": {
     "Parameter": {
@@ -96,22 +90,8 @@
           "type": "string"
         },
         "dataType": {
-          "type": "string"
-        },
-        "charLength": {
-          "type": "integer"
-        },
-        "charSet": {
-          "type": "string"
-        },
-        "precision": {
-          "type": "integer"
-        },
-        "scale": {
-          "type": "integer"
-        },
-        "nullable": {
-          "type": "boolean"
+          "type": "object",
+          "$ref": "#/definitions/DataType"
         },
         "dateModified": {
           "type": "string"
@@ -148,6 +128,63 @@
           ],
           "type": "string",
           "default": "SCD1"
+        }
+      }
+    },
+    "DataType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "string"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "charLength"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "decimal"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "precision", "scale"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "charLength": {
+          "type": "integer"
+        },
+        "charSet": {
+          "type": "string"
+        },
+        "precision": {
+          "type": "integer"
+        },
+        "scale": {
+          "type": "integer"
+        },
+        "nullable": {
+          "type": "boolean"
         }
       }
     },
@@ -192,18 +229,9 @@
     "DataEntity": {
       "additionalItems": false,
       "required": [
-        "dataModule",
-        "dataProduct",
-        "name",
-        "displayName"
+        "name"
       ],
       "properties": {
-        "dataModule": {
-          "type": "string"
-        },
-        "dataProduct": {
-          "type": "string"
-        },
         "name": {
           "type": "string"
         },
@@ -225,7 +253,7 @@
             "type": "string"
           }
         },
-        "attribute": {
+        "attributes": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Attribute"
@@ -251,7 +279,7 @@
       "properties": {
         "mode": {
           "enum": [
-            "schedule", 
+            "schedule",
             "module",
             "event",
             "children"

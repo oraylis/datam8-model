@@ -142,6 +142,9 @@
         },
         "dateDeleted": {
           "type": "string"
+        },
+        "dateAdded": {
+          "type": "string"
         }
       }
     },

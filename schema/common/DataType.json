@@ -1,8 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://oraylis/datam8/common/DataModule.json",
+  "$id": "https://oraylis.de/datam8/common/DataType.json",
   "type": "object",
   "additionalProperties": false,
+  "required": [
+    "name",
+    "parquetType",
+    "sqlType"
+  ],
   "properties": {
     "name": {
       "type": "string"
@@ -24,6 +29,24 @@
       "items": {
         "$ref": "./Parameter.json"
       }
+    },
+    "hasCharLen": {
+      "type": "boolean",
+      "default": "False"
+    },
+    "hasPrecision": {
+      "type": "boolean",
+      "default": "False"
+    },
+    "hasScale": {
+      "type": "boolean",
+      "default": "False"
+    },
+    "parquetType": {
+      "type": "string"
+    },
+    "sqlType": {
+      "type": "string"
     }
   }
 }

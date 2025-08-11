@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/common/Attribute.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "targetDataType"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "attributeType": {
+      "type": "string"
+    },
+    "targetDataType": {
+      "$ref": "./DataTypeObject.json"
+    },
+    "sourceDataType": {
+      "$ref": "./DataTypeObject.json"
+    },
+    "ordinalNumber": {
+      "type": "integer"
+    },
+    "charLength": {
+      "type": "integer"
+    },
+    "charSet": {
+      "type": "string"
+    },
+    "precision": {
+      "type": "integer"
+    },
+    "scale": {
+      "type": "integer"
+    },
+    "nullable": {
+      "type": "boolean"
+    },
+    "unitAttribute": {
+      "type": "string"
+    },
+    "parameter": {
+      "type": "array",
+      "items": {
+        "$ref": "./Parameter.json"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "./Tag.json"
+      }
+    },
+    "refactorNames": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "type": {
+      "enum": [
+        "SCD0",
+        "SCD1",
+        "SCD2",
+        "BK",
+        "SK"
+      ],
+      "type": "string",
+      "default": "SCD1"
+    },
+    "dateModified": {
+      "type": "string"
+    },
+    "dateDeleted": {
+      "type": "string"
+    }
+  }
+}

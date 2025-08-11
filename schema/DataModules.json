@@ -1,26 +1,18 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/DataModules.json",
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "$schema": {
-      "type": "string"
-    },
     "type": {
-      "enum": [
-        "dataModule"
-      ]
+      "type": "string",
+      "const": "DataModules"
     },
     "items": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/DataModule"
+        "$ref": "common/DataModule.json"
       }
-    }
-  },
-  "definitions": {
-    "DataModule": {
-      "$ref": "./common/DataModule.json"
     }
   }
 }

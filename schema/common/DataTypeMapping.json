@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/common/DataTypeMapping.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sourceType": {
+      "type": "string",
+      "description": "Source system data type"
+    },
+    "targetType": {
+      "type": "string",
+      "description": "Target system data type"
+    }
+  },
+  "required": [
+    "sourceType",
+    "targetType"
+  ]
+}

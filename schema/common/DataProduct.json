@@ -1,6 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://oraylis/datam8/common/DataModule.json",
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/common/DataProduct.json",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -23,6 +23,12 @@
       "type": "array",
       "items": {
         "$ref": "./Parameter.json"
+      }
+    },
+    "module": {
+      "type": "array",
+      "items": {
+        "$ref": "./DataModule.json"
       }
     }
   }

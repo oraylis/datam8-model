@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/functions/Store.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mode",
+    "write_mode"
+  ],
+  "properties": {
+    "mode": {
+      "enum": [
+        "history",
+        "overwrite",
+        "snapshot"
+      ]
+    },
+    "write_mode": {
+      "type": "string"
+    },
+    "merge": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "business_key": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sequential": {
+          "type": "boolean"
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "maintenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "retention": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

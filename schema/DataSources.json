@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oralyis.de/datam8/DataSources",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -7,88 +8,12 @@
       "type": "string"
     },
     "type": {
-      "enum": [
-        "dataSource"
-      ]
+      "const": "DataSources"
     },
     "dataSources": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/DataSource"
-      }
-    }
-  },
-  "definitions": {
-    "DataSource": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "parameters": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "value": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "name",
-              "value"
-            ]
-          }
-        },
-        "type": {
-          "type": "string"
-        },
-        "connectionString": {
-          "type": "string"
-        },
-        "dataTypeMapping": {
-          "type": "array",
-          "description": "Optional data type mappings. If not specified, uses defaults from DataSourceTypes. Individual mappings override defaults.",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "sourceType": {
-                "type": "string"
-              },
-              "targetType": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "sourceType",
-              "targetType"
-            ]
-          }
-        },
-        "ExtendedProperties": {
-          "type": "object",
-          "description": "Additional properties specific to the data source",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
+        "$ref": "common/DataSource.json"
       }
     }
   }

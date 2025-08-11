@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/DataProducts.json",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -7,65 +8,14 @@
       "type": "string"
     },
     "type": {
-      "enum": [
-        "dataProduct"
-      ]
+      "type": "string",
+      "const": "DataProducts"
     },
     "dataProducts": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/DataProduct"
+        "$ref": "common/DataProduct.json"
       }
-    }
-  },
-  "definitions": {
-    "DataProduct": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "parameters": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "value": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "name",
-              "value"
-            ]
-          }
-        },
-        "module": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DataModule"
-          }
-        }
-      }
-    },
-    "DataModule": {
-      "$ref": "./common/DataModule.json"
     }
   }
 }

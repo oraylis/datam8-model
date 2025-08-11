@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/common/DataSource.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "./Parameter.json"
+      }
+    },
+    "type": {
+      "type": "string"
+    },
+    "connectionString": {
+      "type": "string"
+    },
+    "dataTypeMapping": {
+      "type": "array",
+      "description": "Optional data type mappings. If not specified, uses defaults from DataSourceTypes. Individual mappings override defaults.",
+      "items": {
+        "$ref": "./DataTypeMapping.json"
+      }
+    },
+    "ExtendedProperties": {
+      "type": "object",
+      "description": "Additional properties specific to the data source",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

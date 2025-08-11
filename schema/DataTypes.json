@@ -7,79 +7,12 @@
       "type": "string"
     },
     "type": {
-      "enum": [
-        "dataType"
-      ]
+      "const": "DataTypes"
     },
     "dataTypes": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/DataType"
-      }
-    }
-  },
-  "definitions": {
-    "DataType": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "parquetType",
-        "sqlType"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "parameters": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "value": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "name",
-              "value"
-            ]
-          }
-        },
-        "hasCharLen": {
-          "type": "boolean",
-          "default": "False"
-        },
-        "hasPrecision": {
-          "type": "boolean",
-          "default": "False"
-        },
-        "hasScale": {
-          "type": "boolean",
-          "default": "False"
-        },
-        "parquetType": {
-          "type": "string"
-        },
-        "sqlType": {
-          "type": "string"
-        }
+        "$ref": "common/DataType.json"
       }
     }
   }

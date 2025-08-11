@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=http://json-schema.org/draft-07/schema
+$id: https://oraylis.de/datam8/common/AttributeMapping.yml
+additionalProperties: false
+required: [sourceName]
+properties:
+  name:
+    type: string
+  targetName:
+    type: string
+  sourceComputation:
+    type: string
+  sourceName:
+    type: string

@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/schema/data-type.json",
+  "title": "DataType",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "nullable"
+  ],
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "nullable": {
+      "type": "boolean"
+    },
+    "charLen": {
+      "type": "integer"
+    },
+    "precision": {
+      "type": "integer"
+    },
+    "scale": {
+      "type": "integer"
+    }
+  },
+  "definitions": {
+    "DataTypeDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "parquetType",
+        "sqlType"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hasCharLen": {
+          "type": "boolean",
+          "default": false
+        },
+        "hasPrecision": {
+          "type": "boolean",
+          "default": false
+        },
+        "hasScale": {
+          "type": "boolean",
+          "default": false
+        },
+        "parquetType": {
+          "type": "string"
+        },
+        "sqlType": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,301 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/schema/base.json",
+  "title": "BaseEntity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "enum": [
+        "attributeTypes",
+        "dataSources",
+        "dataSourceTypes",
+        "dataModules",
+        "dataProducts",
+        "dataTypes",
+        "propertyTypes",
+        "properties",
+        "zones"
+      ]
+    },
+    "zones": true,
+    "attributeTypes": true,
+    "dataSources": true,
+    "dataSourceTypes": true,
+    "dataProducts": true,
+    "dataModules": true,
+    "dataTypes": true,
+    "propertyTypes": true,
+    "properties": true,
+    "entity": true,
+    "function": true
+  },
+  "oneOf": [
+    {
+      "$ref": "#/definitions/Properties"
+    },
+    {
+      "$ref": "#/definitions/PropertyTypes"
+    },
+    {
+      "$ref": "#/definitions/Zones"
+    },
+    {
+      "$ref": "#/definitions/DataTypes"
+    },
+    {
+      "$ref": "#/definitions/DataSourceTypes"
+    },
+    {
+      "$ref": "#/definitions/DataProducts"
+    },
+    {
+      "$ref": "#/definitions/DataModules"
+    },
+    {
+      "$ref": "#/definitions/AttributeTypes"
+    },
+    {
+      "$ref": "#/definitions/DataSources"
+    }
+  ],
+  "definitions": {
+    "Properties": {
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "type": {
+          "const": "properties"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "$ref": "./property.json"
+          }
+        },
+        "zones": false,
+        "attributeTypes": false,
+        "dataSources": false,
+        "dataSourceTypes": false,
+        "dataProducts": false,
+        "dataModules": false,
+        "dataTypes": false,
+        "propertyTypes": false,
+        "entity": false,
+        "functions": false
+      }
+    },
+    "PropertyTypes": {
+      "required": [
+        "propertyTypes"
+      ],
+      "properties": {
+        "type": {
+          "const": "propertyTypes"
+        },
+        "propertyTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "./property.json#/definitions/PropertyType"
+          }
+        },
+        "zones": false,
+        "attributeTypes": false,
+        "dataSources": false,
+        "dataSourceTypes": false,
+        "dataProducts": false,
+        "dataModules": false,
+        "dataTypes": false,
+        "properties": false,
+        "entity": false,
+        "functions": false
+      }
+    },
+    "Zones": {
+      "required": [
+        "zones"
+      ],
+      "properties": {
+        "type": {
+          "const": "zones"
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "$ref": "./zone.json"
+          }
+        },
+        "attributeTypes": false,
+        "dataSources": false,
+        "dataSourceTypes": false,
+        "dataProducts": false,
+        "dataModules": false,
+        "dataTypes": false,
+        "propertyTypes": false,
+        "properties": false,
+        "entity": false,
+        "function": false
+      }
+    },
+    "DataTypes": {
+      "required": [
+        "dataTypes"
+      ],
+      "properties": {
+        "type": {
+          "const": "dataTypes"
+        },
+        "dataTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "./data-type.json#/definitions/DataTypeDefinition"
+          }
+        },
+        "zones": false,
+        "attributeTypes": false,
+        "dataSources": false,
+        "dataSourceTypes": false,
+        "dataProducts": false,
+        "dataModules": false,
+        "propertyTypes": false,
+        "properties": false,
+        "entity": false,
+        "function": false
+      }
+    },
+    "DataSourceTypes": {
+      "required": [
+        "dataSourceTypes"
+      ],
+      "properties": {
+        "type": {
+          "const": "dataSourceTypes"
+        },
+        "dataSourceTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "./data-source.json#/definitions/DataSourceType"
+          }
+        },
+        "zones": false,
+        "attributeTypes": false,
+        "dataSources": false,
+        "dataProducts": false,
+        "dataModules": false,
+        "dataTypes": false,
+        "propertyTypes": false,
+        "properties": false,
+        "entity": false,
+        "function": false
+      }
+    },
+    "DataProducts": {
+      "required": [
+        "dataProducts"
+      ],
+      "properties": {
+        "type": {
+          "const": "dataProducts"
+        },
+        "dataProducts": {
+          "type": "array",
+          "items": {
+            "$ref": "./data-product.json"
+          }
+        },
+        "zones": false,
+        "attributeTypes": false,
+        "dataSources": false,
+        "dataSourceTypes": false,
+        "dataModules": false,
+        "dataTypes": false,
+        "propertyTypes": false,
+        "properties": false,
+        "entity": false,
+        "function": false
+      }
+    },
+    "DataModules": {
+      "required": [
+        "dataModules"
+      ],
+      "properties": {
+        "type": {
+          "const": "dataModules"
+        },
+        "dataModules": {
+          "type": "array",
+          "items": {
+            "$ref": "./data-product.json#/definitions/DataModule"
+          }
+        },
+        "zones": false,
+        "attributeTypes": false,
+        "dataSources": false,
+        "dataSourceTypes": false,
+        "dataProducts": false,
+        "dataTypes": false,
+        "propertyTypes": false,
+        "properties": false,
+        "entity": false,
+        "function": false
+      }
+    },
+    "AttributeTypes": {
+      "required": [
+        "attributeTypes"
+      ],
+      "properties": {
+        "type": {
+          "const": "attributeTypes"
+        },
+        "attributeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "./attribute.json#/definitions/AttributeType"
+          }
+        },
+        "zones": false,
+        "dataSources": false,
+        "dataSourceTypes": false,
+        "dataProducts": false,
+        "dataModules": false,
+        "dataTypes": false,
+        "propertyTypes": false,
+        "properties": false,
+        "entity": false,
+        "function": false
+      }
+    },
+    "DataSources": {
+      "required": [
+        "dataSources"
+      ],
+      "properties": {
+        "type": {
+          "const": "dataSources"
+        },
+        "dataSources": {
+          "type": "array",
+          "items": {
+            "$ref": "./data-source.json"
+          }
+        },
+        "zones": false,
+        "attributeTypes": false,
+        "dataSourceTypes": false,
+        "dataProducts": false,
+        "dataModules": false,
+        "dataTypes": false,
+        "propertyTypes": false,
+        "properties": false,
+        "entity": false,
+        "function": false
+      }
+    }
+  }
+}

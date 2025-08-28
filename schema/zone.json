@@ -1,8 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://oraylis.de/datam8/common/Zone.json",
+  "$id": "https://oraylis.de/datam8/schema/zone.json",
+  "title": "Zone",
   "type": "object",
   "additionalProperties": false,
+  "required": [
+    "name",
+    "targeName",
+    "displayName"
+  ],
   "properties": {
     "name": {
       "type": "string",
@@ -20,11 +26,5 @@
       "type": "string",
       "description": "Local folder name used in file system structure"
     }
-  },
-  "required": [
-    "name",
-    "targeName",
-    "displayName",
-    "localFolderName"
-  ]
+  }
 }

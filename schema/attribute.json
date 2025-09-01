@@ -2,17 +2,20 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/attribute.json",
   "title": "Attribute",
+  "description": "An attribute of a model entity.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "ordinalNumber",
     "name",
     "dataType",
-    "attributeType"
+    "attributeType",
+    "dateAdded"
   ],
   "properties": {
     "ordinalNumber": {
-      "type": "integer"
+      "type": "integer",
+      "exclusiveMinimum": 0
     },
     "name": {
       "type": "string"
@@ -29,15 +32,25 @@
     "dataType": {
       "$ref": "./data-type.json"
     },
-    "type": {
+    "isBusinessKey": {
+      "type": "boolean",
+      "default": false
+    },
+    "history": {
+      "title": "HistoryType",
+      "description": "Defines how an attribute in a slowly chaning dimension should behave.",
       "enum": [
         "SCD0",
         "SCD1",
         "SCD2",
-        "BK",
-        "SK"
+        "SCD3",
+        "SCD4"
       ],
       "default": "SCD1"
+    },
+    "unit": {
+      "$comment": "TODO: Validate conecpt of units and where they are maintaned.",
+      "type": "string"
     },
     "refactorNames": {
       "type": "array",
@@ -46,13 +59,16 @@
       }
     },
     "dateModified": {
-      "type": "string"
+      "type": "string",
+      "format": "date-time"
     },
     "dateDeleted": {
-      "type": "string"
+      "type": "string",
+      "format": "date-time"
     },
     "dateAdded": {
-      "type": "string"
+      "type": "string",
+      "format": "date-time"
     },
     "properties": {
       "type": "array",
@@ -63,8 +79,14 @@
   },
   "definitions": {
     "AttributeType": {
+      "description": "Defines abstract business orientated attribute definitions, e.g. an email address",
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "name",
+        "displayName",
+        "defaultType"
+      ],
       "properties": {
         "name": {
           "type": "string"
@@ -79,28 +101,25 @@
           "type": "string"
         },
         "defaultLength": {
-          "type": "integer"
+          "type": "integer",
+          "exclusiveMinimum": 0
         },
         "defaultPrecision": {
-          "type": "integer"
+          "type": "integer",
+          "exclusiveMinimum": 0
         },
         "defaultScale": {
-          "type": "integer"
+          "type": "integer",
+          "exclusiveMinimum": 0
         },
         "hasUnit": {
-          "enum": [
-            "NoUnit",
-            "Physical",
-            "Currency",
-            "UnitFree"
-          ]
-        },
-        "isUnit": {
+          "description": "Defines if an attribute should define a unit, e.g. `Physical` for weight or `Currency` for price.",
           "enum": [
             "NoUnit",
             "Physical",
             "Currency"
-          ]
+          ],
+          "default": "NoUnit"
         },
         "canBeInRelation": {
           "type": "boolean",
@@ -110,12 +129,7 @@
           "type": "boolean",
           "default": false
         }
-      },
-      "required": [
-        "name",
-        "displayName",
-        "defaultType"
-      ]
+      }
     }
   }
 }

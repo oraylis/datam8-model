@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/data-source.json",
   "title": "DataSource",
+  "description": "Defines an external source of data to be loaded with datam8.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -37,7 +38,7 @@
         "$ref": "#/definitions/SourceDataTypeMapping"
       }
     },
-    "ExtendedProperties": {
+    "extendedProperties": {
       "type": "object",
       "description": "Additional properties specific to the data source",
       "additionalProperties": {
@@ -47,6 +48,7 @@
   },
   "definitions": {
     "SourceDataTypeMapping": {
+      "description": "A mapping of datatypes name in the source to datam8 internal datatype names.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -64,9 +66,33 @@
         "targetType"
       ]
     },
+    "ConnectionProperty": {
+      "description": "A property or setting defined by a data source type, which is then available when defining concret data sources.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "required"
+      ]
+    },
     "DataSourceType": {
+      "description": "Defines groups of data sources that base on their technology, e.g. `SqlServer` or `Oracle`",
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "name",
+        "dataTypeMapping"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -83,38 +109,19 @@
         "dataTypeMapping": {
           "type": "array",
           "description": "Default data type mappings for this source type",
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/SourceDataTypeMapping"
           }
         },
         "connectionProperties": {
-          "type": "array",
           "description": "Required connection properties for this source type",
+          "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "required": {
-                "type": "boolean"
-              },
-              "description": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "name",
-              "required"
-            ]
+            "$ref": "#/definitions/ConnectionProperty"
           }
         }
-      },
-      "required": [
-        "name",
-        "displayName",
-        "description"
-      ]
+      }
     }
   }
 }

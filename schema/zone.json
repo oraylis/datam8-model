@@ -2,11 +2,12 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/zone.json",
   "title": "Zone",
+  "description": "Defines a high-level layer or zone, typically used to clearly seperate different states of data processing, e.g. bronze, silver, gold, semantic.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "name",
-    "targeName",
+    "targetName",
     "displayName"
   ],
   "properties": {
@@ -14,7 +15,7 @@
       "type": "string",
       "description": "Logical name of the zone (e.g., Raw, Core, Curated)"
     },
-    "targeName": {
+    "targetName": {
       "type": "string",
       "description": "Target system name for the zone (e.g., Bronze, Silver, Gold)"
     },

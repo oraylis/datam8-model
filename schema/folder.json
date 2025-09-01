@@ -6,19 +6,23 @@
   "additionalProperties": false,
   "required": [
     "id",
-    "type"
+    "name"
   ],
   "properties": {
     "id": {
-      "type": "number"
+      "$ref": "./base.json#/definitions/Id"
     },
-    "type": {
-      "const": "folder"
+    "name": {
+      "type": "string"
     },
     "displayName": {
       "type": "string"
     },
     "description": {
+      "type": "string"
+    },
+    "path": {
+      "description": "Path of this folder, if not set the current directory will be used.",
       "type": "string"
     },
     "properties": {

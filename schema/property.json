@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/property.json",
   "title": "Property",
+  "description": "A single globally available static attribute that can be referenced from other entities.",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -31,7 +32,9 @@
   },
   "definitions": {
     "PropertyReference": {
+      "description": "Used to reference from any entity to a `Property`.",
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "type",
         "value"
@@ -46,6 +49,7 @@
       }
     },
     "PropertyScope": {
+      "description": "Defines for which type of entities a `PropertyType` is available for assignment.",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -56,6 +60,7 @@
           "type": "string"
         },
         "singleUsage": {
+          "description": "Defines if the `PropertyType` can only be assigned once to entities in this scope.",
           "type": "boolean",
           "default": true
         },
@@ -66,6 +71,8 @@
       }
     },
     "PropertyType": {
+      "$comment": "TODO: this should be the Property, and Property should be e.g. PropertyValue?",
+      "description": "Defines a group of Properties that are grouped together for selection purposes.",
       "type": "object",
       "additionalProperties": false,
       "required": [

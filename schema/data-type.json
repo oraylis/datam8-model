@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/data-type.json",
   "title": "DataType",
+  "description": "An datam8 abstract internal data type.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -13,20 +14,25 @@
       "type": "string"
     },
     "nullable": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
     "charLen": {
-      "type": "integer"
+      "type": "integer",
+      "exclusiveMinimum": 0
     },
     "precision": {
-      "type": "integer"
+      "type": "integer",
+      "exclusiveMinimum": 0
     },
     "scale": {
-      "type": "integer"
+      "type": "integer",
+      "exclusiveMinimum": 0
     }
   },
   "definitions": {
     "DataTypeDefinition": {
+      "description": "Defines a class of data type to configure which `DataType` properties are relevant for a specific type.",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -57,9 +63,11 @@
           "default": false
         },
         "parquetType": {
+          "description": "The actual parquet data type that this datam8 internal type will map to.",
           "type": "string"
         },
         "sqlType": {
+          "description": "The atual sql data type that this datam8 internal type will map to.",
           "type": "string"
         }
       }

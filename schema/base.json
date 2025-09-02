@@ -9,7 +9,7 @@
       "$ref": "#/definitions/EntityType"
     },
     "properties": {},
-    "propertyTypes": {},
+    "propertyValues": {},
     "zones": {},
     "dataTypes": {},
     "dataSourceTypes": {},
@@ -85,20 +85,20 @@
     },
     {
       "additionalProperties": false,
-      "title": "PropertyType",
+      "title": "PropertyValues",
       "required": [
         "type",
-        "propertyTypes"
+        "propertyValues"
       ],
       "properties": {
         "type": {
-          "const": "propertyTypes"
+          "const": "propertyValues"
         },
-        "propertyTypes": {
+        "propertyValues": {
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "$ref": "./property.json#/definitions/PropertyType"
+            "$ref": "./property.json#/definitions/PropertyValue"
           }
         }
       }
@@ -271,7 +271,7 @@
       "description": "A union type for all internal objects.",
       "anyOf": [
         { "$ref": "./property.json" },
-        { "$ref": "./property.json#/definitions/PropertyType" },
+        { "$ref": "./property.json#/definitions/PropertyValue" },
         { "$ref": "./zone.json" },
         { "$ref": "./data-type.json" },
         { "$ref": "./data-type.json#/definitions/DataTypeDefinition" },
@@ -283,12 +283,6 @@
         { "$ref": "./folder.json" },
         { "$ref": "./model.json" }
       ]
-    },
-    "Id": {
-      "description": "Internal id of an entity.",
-      "type": "integer",
-      "exclusiveMinimum": 0,
-      "readOnly": true
     }
   }
 }

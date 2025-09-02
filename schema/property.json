@@ -2,12 +2,12 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/property.json",
   "title": "Property",
-  "description": "A single globally available static attribute that can be referenced from other entities.",
+  "description": "Defines properties for which specific pre-selectable values can created.",
   "type": "object",
   "additionalProperties": true,
   "required": [
     "name",
-    "type"
+    "displayName"
   ],
   "properties": {
     "name": {
@@ -16,18 +16,16 @@
     "displayName": {
       "type": "string"
     },
-    "default": {
-      "type": "boolean",
-      "default": false
-    },
-    "type": {
+    "schema": {
       "type": "string"
     },
-    "properties": {
+    "scopes": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
-        "$ref": "#/definitions/PropertyReference"
-      }
+        "$ref": "#/definitions/PropertyScope"
+      },
+      "default": []
     }
   },
   "definitions": {
@@ -40,7 +38,7 @@
         "value"
       ],
       "properties": {
-        "type": {
+        "property": {
           "type": "string"
         },
         "value": {
@@ -56,7 +54,7 @@
         "type"
       ],
       "properties": {
-        "type": {
+        "property": {
           "type": "string"
         },
         "singleUsage": {
@@ -70,9 +68,8 @@
         }
       }
     },
-    "PropertyType": {
-      "$comment": "TODO: this should be the Property, and Property should be e.g. PropertyValue?",
-      "description": "Defines a group of Properties that are grouped together for selection purposes.",
+    "PropertyValue": {
+      "description": "A single globally available static property value that can be referenced from other entities.",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -85,15 +82,20 @@
         "displayName": {
           "type": "string"
         },
-        "schema": {
+        "default": {
+          "type": "boolean",
+          "default": false
+        },
+        "property": {
+          "description": "The name of the associated property.",
           "type": "string"
         },
-        "scopes": {
+        "properties": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
-            "$ref": "#/definitions/PropertyScope"
-          },
-          "default": []
+            "$ref": "#/definitions/PropertyReference"
+          }
         }
       }
     }

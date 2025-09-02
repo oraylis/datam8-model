@@ -255,7 +255,7 @@
       "title": "EntityType",
       "enum": [
         "properties",
-        "propertyTypes",
+        "propertyValues",
         "zones",
         "dataTypes",
         "dataSourceTypes",

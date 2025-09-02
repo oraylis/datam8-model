@@ -34,7 +34,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "type",
+        "property",
         "value"
       ],
       "properties": {
@@ -54,7 +54,7 @@
         "type"
       ],
       "properties": {
-        "property": {
+        "type": {
           "type": "string"
         },
         "singleUsage": {
@@ -71,7 +71,7 @@
     "PropertyValue": {
       "description": "A single globally available static property value that can be referenced from other entities.",
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "required": [
         "name"
       ],

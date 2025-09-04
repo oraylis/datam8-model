@@ -49,10 +49,18 @@
       "description": "Defines a target that can be selected when using the generator.",
       "additionalProperties": false,
       "required": [
+        "name",
         "outputPath",
         "sourcePath"
       ],
       "properties": {
+        "name": {
+          "type": "string"
+        },
+        "isDefault": {
+          "type": "boolean",
+          "default": false
+        },
         "sourcePath": {
           "description": "A path relative to the folder where the the solution file lies.",
           "type": "string",

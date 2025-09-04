@@ -27,6 +27,7 @@
     },
     "parameters": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
         "$ref": "#/definitions/ModelParameter"
       }
@@ -34,19 +35,21 @@
     "attributes": {
       "type": "array",
       "minItems": 1,
+      "uniqueItems": true,
       "items": {
         "$ref": "./attribute.json"
       }
     },
     "properties": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
         "$ref": "./property.json#/definitions/PropertyReference"
       }
     },
     "sources": {
       "type": "array",
-      "minItems": 1,
+      "uniqueItems": true,
       "items": {
         "oneOf": [
           {
@@ -61,7 +64,7 @@
     "transformations": {
       "description": "List of transformations that will be executed in order of stepNo.",
       "type": "array",
-      "minItems": 1,
+      "uniqueItems": true,
       "items": {
         "$ref": "#/definitions/ModelTransformation"
       }
@@ -110,12 +113,14 @@
         },
         "properties": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "./property.json#/definitions/PropertyReference"
           }
         },
         "mapping": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/SourceAttributeMapping"
           }
@@ -140,12 +145,14 @@
         },
         "properties": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "./property.json#/definitions/PropertyReference"
           }
         },
         "mapping": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/SourceAttributeMapping"
           }
@@ -172,6 +179,7 @@
         },
         "properties": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "./property.json#/definitions/PropertyReference"
           }
@@ -235,6 +243,7 @@
         },
         "properties": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "./property.json#/definitions/PropertyReference"
           }

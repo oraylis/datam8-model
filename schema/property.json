@@ -73,7 +73,8 @@
       "type": "object",
       "additionalProperties": true,
       "required": [
-        "name"
+        "name",
+        "property"
       ],
       "properties": {
         "name": {

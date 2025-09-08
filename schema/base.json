@@ -273,7 +273,6 @@
         { "$ref": "./property.json" },
         { "$ref": "./property.json#/definitions/PropertyValue" },
         { "$ref": "./zone.json" },
-        { "$ref": "./data-type.json" },
         { "$ref": "./data-type.json#/definitions/DataTypeDefinition" },
         { "$ref": "./data-source.json#/definitions/DataSourceType" },
         { "$ref": "./data-product.json" },

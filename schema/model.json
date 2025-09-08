@@ -75,26 +75,25 @@
       "description": "Describes an abstract way to point to and find entities with datam8.",
       "additionalProperties": false,
       "required": [
-        "zone",
-        "folders",
-        "modelEntity"
+        "entityType",
+        "folders"
       ],
       "properties": {
-        "zone": {
-          "description": "Reference to the top-level folder within the model folder.",
+        "entityType": {
           "type": "string"
         },
         "folders": {
-          "description": "Hierarchical list of olders under the zone. Order is relevant.",
+          "description": "Hierarchical list of olders under the base-/modelpath. Order is relevant.",
           "type": "array",
           "items": {
             "type": "string"
           },
           "default": []
         },
-        "modelEntity": {
-          "description": "Name property of the modelEntity object.",
-          "type": "string"
+        "entityName": {
+          "description": "Name property of the entity object.",
+          "type": "string",
+          "default": null
         }
       }
     },

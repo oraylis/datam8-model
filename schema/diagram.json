@@ -1,5 +1,7 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/schema/diagram.json",
+  "title": "Diagram",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -15,13 +17,12 @@
     "diagramOptions": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Options"
+        "$ref": "#/definitions/DiagramOption"
       }
     }
   },
   "definitions": {
-    "Options": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
+    "DiagramOption": {
       "type": "object",
       "additionalProperties": false,
       "required": [

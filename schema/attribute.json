@@ -48,6 +48,19 @@
       ],
       "default": "SCD1"
     },
+    "expression": {
+      "type": "string"
+    },
+    "expressionLanguage": {
+      "title": "ExpressionLanguageType",
+      "description": "Defines the language for an expression of calculated attributes.",
+      "enum": [
+        "sql",
+        "python",
+        "dax"
+      ],
+      "default": "sql"
+    },
     "unit": {
       "$comment": "TODO: Validate conecpt of units and where they are maintaned.",
       "type": "string"

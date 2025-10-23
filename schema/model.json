@@ -137,6 +137,9 @@
         "dataSource": {
           "type": "string"
         },
+        "sourceAlias": {
+          "type": "string"
+        },
         "sourceLocation": {
           "type": [
             "string"

@@ -52,12 +52,18 @@
       "type": "string"
     },
     "expressionLanguage": {
-      "title": "ExpressionLanguageType",
-      "description": "Defines the language for an expression of calculated attributes.",
-      "enum": [
-        "sql",
-        "python",
-        "dax"
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "sql",
+            "dax",
+            "python"
+          ]
+        },
+        {
+          "type": "string"
+        }
       ],
       "default": "sql"
     },

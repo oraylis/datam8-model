@@ -37,8 +37,7 @@
       "additionalProperties": false,
       "required": [
         "name",
-        "parquetType",
-        "sqlType"
+        "targets"
       ],
       "properties": {
         "name": {
@@ -62,13 +61,13 @@
           "type": "boolean",
           "default": false
         },
-        "parquetType": {
-          "description": "The actual parquet data type that this datam8 internal type will map to.",
-          "type": "string"
-        },
-        "sqlType": {
-          "description": "The atual sql data type that this datam8 internal type will map to.",
-          "type": "string"
+        "targets": {
+          "description": "Maps target (e.g. databricks, powerbi, sqlserver) to their data types.",
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     }

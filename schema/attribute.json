@@ -48,6 +48,25 @@
       ],
       "default": "SCD1"
     },
+    "expression": {
+      "type": "string"
+    },
+    "expressionLanguage": {
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "sql",
+            "dax",
+            "python"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "default": "sql"
+    },
     "unit": {
       "$comment": "TODO: Validate conecpt of units and where they are maintaned.",
       "type": "string"

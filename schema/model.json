@@ -10,6 +10,7 @@
     "name",
     "attributes",
     "sources",
+    "relationships",
     "transformations"
   ],
   "properties": {
@@ -67,6 +68,14 @@
       "uniqueItems": true,
       "items": {
         "$ref": "#/definitions/ModelTransformation"
+      }
+    },
+    "relationships": {
+      "description": "List of entity relationships.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/ModelRelationship"
       }
     }
   },
@@ -135,6 +144,9 @@
       ],
       "properties": {
         "dataSource": {
+          "type": "string"
+        },
+        "sourceAlias": {
           "type": "string"
         },
         "sourceLocation": {
@@ -280,6 +292,46 @@
       "else": {
         "properties": {
           "function": false
+        }
+      }
+    },
+    "ModelRelationship": {
+      "description": "Maps attributes to a target location.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "targetLocation",
+        "attributes"
+      ],
+      "properties": {
+        "targetLocation": {
+          "type": "integer"
+        },
+        "attributes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/ModelRelationshipAttribute"
+          }
+        }
+      }
+    },
+    "ModelRelationshipAttribute": {
+      "description": "Single attribute mapping from source to target.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceName",
+        "targetName"
+      ],
+      "properties": {
+        "sourceName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetName": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

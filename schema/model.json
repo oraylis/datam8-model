@@ -172,30 +172,27 @@
     },
     "SourceAttributeMapping": {
       "description": "Map an attribute in the source to one in the current entity. May optionally contain an explicit source data type.",
-      "type": "object",
       "additionalProperties": false,
-      "required": [
-        "targetName",
-        "sourceName"
-      ],
-      "properties": {
-        "targetName": {
-          "type": "string"
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelAttributeMapping"
         },
-        "sourceName": {
-          "type": "string"
-        },
-        "sourceDataType": {
-          "$ref": "./data-type.json"
-        },
-        "properties": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "./property.json#/definitions/PropertyReference"
+        {
+          "type": "object",
+          "properties": {
+            "sourceDataType": {
+              "$ref": "./data-type.json"
+            },
+            "properties": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "$ref": "./property.json#/definitions/PropertyReference"
+              }
+            }
           }
         }
-      }
+      ]
     },
     "ModelParameter": {
       "description": "Key-Value pair parameters for customization of and entity-level attributes.",
@@ -311,13 +308,13 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "$ref": "#/definitions/ModelRelationshipAttribute"
+            "$ref": "#/definitions/ModelAttributeMapping"
           }
         }
       }
     },
-    "ModelRelationshipAttribute": {
-      "description": "Single attribute mapping from source to target.",
+    "ModelAttributeMapping": {
+      "description": "Single attribute mapping.",
       "type": "object",
       "additionalProperties": false,
       "required": [

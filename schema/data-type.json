@@ -27,7 +27,7 @@
     },
     "scale": {
       "type": "integer",
-      "exclusiveMinimum": 0
+      "minimum": 0
     }
   },
   "definitions": {

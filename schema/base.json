@@ -117,7 +117,6 @@
         "zones": {
           "type": "array",
           "uniqueItems": true,
-          "minItems": 1,
           "items": {
             "$ref": "./zone.json"
           }
@@ -159,7 +158,6 @@
         "dataSourceTypes": {
           "type": "array",
           "uniqueItems": true,
-          "minItems": 1,
           "items": {
             "$ref": "./data-source.json#/definitions/DataSourceType"
           }
@@ -180,7 +178,6 @@
         "dataProducts": {
           "type": "array",
           "uniqueItems": true,
-          "minItems": 1,
           "items": {
             "$ref": "./data-product.json"
           }

@@ -114,10 +114,7 @@
       ],
       "properties": {
         "sourceLocation": {
-          "type": [
-            "string",
-            "integer"
-          ]
+          "type": "integer"
         },
         "properties": {
           "type": "array",
@@ -303,6 +300,9 @@
       "properties": {
         "targetLocation": {
           "type": "integer"
+        },
+        "alias": {
+          "type": "string"
         },
         "attributes": {
           "type": "array",

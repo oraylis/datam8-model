@@ -9,6 +9,7 @@
     "schemaVersion",
     "modelPath",
     "basePath",
+    "pluginsPath",
     "generatorTargets"
   ],
   "properties": {
@@ -33,6 +34,12 @@
       "$comment": "TODO: Define description",
       "type": "string",
       "format": "path"
+    },
+    "pluginsPath": {
+      "description": "Path where connector plugins are stored.",
+      "type": "string",
+      "format": "path",
+      "default": "Plugins"
     },
     "generatorTargets": {
       "description": "Targets available to the generator when not explicitly specifying it.",

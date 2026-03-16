@@ -26,6 +26,12 @@
     "localFolderName": {
       "type": "string",
       "description": "Local folder name used in file system structure"
+    },
+    "properties": {
+      "type": "array",
+      "items": {
+        "$ref": "./property.json#/definitions/PropertyReference"
+      }
     }
   }
 }

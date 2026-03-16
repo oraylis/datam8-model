@@ -24,8 +24,7 @@
       "uniqueItems": true,
       "items": {
         "$ref": "#/definitions/PropertyScope"
-      },
-      "default": []
+      }
     }
   },
   "definitions": {

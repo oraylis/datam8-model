@@ -7,7 +7,8 @@
   "additionalProperties": false,
   "required": [
     "name",
-    "type"
+    "type",
+    "extendedProperties"
   ],
   "properties": {
     "name": {
@@ -28,9 +29,6 @@
     "type": {
       "type": "string"
     },
-    "connectionString": {
-      "type": "string"
-    },
     "dataTypeMapping": {
       "type": "array",
       "description": "Optional data type mappings. If not specified, uses defaults from DataSourceTypes. Individual mappings override defaults.",
@@ -41,8 +39,14 @@
     "extendedProperties": {
       "type": "object",
       "description": "Additional properties specific to the data source",
+      "minProperties": 1,
       "additionalProperties": {
-        "type": "string"
+        "type": [
+          "string",
+          "boolean",
+          "integer",
+          "number"
+        ]
       }
     }
   },
@@ -74,10 +78,19 @@
           "type": "string"
         },
         "required": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         "description": {
           "type": "string"
+        },
+        "default": {
+          "type": [
+            "string",
+            "boolean",
+            "integer",
+            "number"
+          ]
         }
       },
       "required": [
@@ -91,7 +104,8 @@
       "additionalProperties": false,
       "required": [
         "name",
-        "dataTypeMapping"
+        "dataTypeMapping",
+        "connectionProperties"
       ],
       "properties": {
         "name": {
@@ -114,9 +128,14 @@
             "$ref": "#/definitions/SourceDataTypeMapping"
           }
         },
+        "pluginId": {
+          "type": "string",
+          "description": "ID of the plugin used to connect to the source type. If not provided falls back to builtin plugins matching the  name"
+        },
         "connectionProperties": {
           "description": "Required connection properties for this source type",
           "type": "array",
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/ConnectionProperty"
           }

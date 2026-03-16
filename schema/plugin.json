@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/schema/plugin.json",
+  "title": "PluginManifest",
+  "description": "A DataM8 plugin that e.g. provides additional ways to connect to source systems",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "type",
+    "entryPoint",
+    "capabilities"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human-readable display name"
+    },
+    "version": {
+      "type": "string"
+    },
+    "entryPoint": {
+      "type": "string",
+      "description": "Python entrypoint that will be imported as a class of plugin"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Capability"
+      }
+    }
+  },
+  "definitions": {
+    "Capability": {
+      "title": "Capability",
+      "description": "Available capabilities plugins can implement",
+      "enum": [
+        "uiSchema",
+        "validationConnection",
+        "metadata"
+      ]
+    }
+  }
+}

@@ -43,6 +43,73 @@
         "validationConnection",
         "metadata"
       ]
+    },
+    "UiSchema": {
+      "title": "UiSchema",
+      "type": "object",
+      "required": [
+        "title",
+        "authModes"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "authModes": {
+          "type": "array",
+          "items": {
+            "title": "UiAuthMode",
+            "type": "object",
+            "required": [
+              "id",
+              "fields"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "title": "UiField",
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "type",
+                    "required"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "default": {
+                      "type": [
+                        "string",
+                        "boolean",
+                        "integer",
+                        "number",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

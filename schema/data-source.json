@@ -77,12 +77,24 @@
         "name": {
           "type": "string"
         },
+        "displayName": {
+          "type": "string"
+        },
         "required": {
           "type": "boolean",
           "default": false
         },
         "description": {
           "type": "string"
+        },
+        "type": {
+          "title": "ConnectionPropertyValueType",
+          "enum": [
+            "string",
+            "number",
+            "boolean",
+            "secret"
+          ]
         },
         "default": {
           "type": [
@@ -95,8 +107,39 @@
       },
       "required": [
         "name",
-        "required"
+        "required",
+        "type"
       ]
+    },
+    "AuthMode": {
+      "description": "A single authentiocation method",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "required"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "required": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "DataSourceType": {
       "description": "Defines groups of data sources that base on their technology, e.g. `SqlServer` or `Oracle`",
@@ -105,7 +148,8 @@
       "required": [
         "name",
         "dataTypeMapping",
-        "connectionProperties"
+        "connectionProperties",
+        "authModes"
       ],
       "properties": {
         "name": {
@@ -139,6 +183,68 @@
           "items": {
             "$ref": "#/definitions/ConnectionProperty"
           }
+        },
+        "authModes": {
+          "description": "Describes different authentication modes and which connection properties are relevant for it.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuthMode"
+          }
+        }
+      }
+    },
+    "SourceObject": {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "schema": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "SourceField": {
+      "required": [
+        "name",
+        "ordinal",
+        "dataType",
+        "isNullable"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "dataType": {
+          "type": "string"
+        },
+        "maxLength": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "numericPrecision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "numbericScale": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "isNullable": {
+          "type": "boolean"
+        },
+        "isPrimaryKey": {
+          "type": "boolean"
         }
       }
     }

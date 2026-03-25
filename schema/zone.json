@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/zone.json",
   "title": "Zone",
-  "description": "Defines a high-level layer or zone, typically used to clearly seperate different states of data processing, e.g. bronze, silver, gold, semantic.",
+  "description": "Defines a high-level layer or zone, typically used to clearly separate different states of data processing, e.g. bronze, silver, gold, semantic.",
   "type": "object",
   "additionalProperties": false,
   "required": [

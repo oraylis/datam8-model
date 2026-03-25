@@ -71,7 +71,7 @@
       ]
     },
     "ConnectionProperty": {
-      "description": "A property or setting defined by a data source type, which is then available when defining concret data sources.",
+      "description": "A property or setting defined by a data source type, which is then available when defining concrete data sources.",
       "type": "object",
       "properties": {
         "name": {

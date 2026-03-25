@@ -7,6 +7,14 @@ The model describes common objects used to describe a data warehouse or lakehous
 * columns
 * data type mappings
 
+> [!IMPORTANT]
+> The main branch may contain active development, which could result in an inconsistent schema.
+> Always use [releases] or their respective [version tags] or commit hashes directly when
+> referencing the schema.
+
+[releases]: https://github.com/oraylis/datam8-model/releases
+[version tags]: https://github.com/oraylis/datam8-model/tags
+
 ## Issues
 Issues are centrally maintained in a different repository
 

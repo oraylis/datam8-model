@@ -38,7 +38,7 @@
     },
     "history": {
       "title": "HistoryType",
-      "description": "Defines how an attribute in a slowly chaning dimension should behave.",
+      "description": "Defines how an attribute in a slowly changing dimension should behave.",
       "enum": [
         "SCD0",
         "SCD1",
@@ -68,7 +68,7 @@
       "default": "sql"
     },
     "unit": {
-      "$comment": "TODO: Validate conecpt of units and where they are maintaned.",
+      "$comment": "TODO: Validate concept of units and where they are maintained.",
       "type": "string"
     },
     "refactorNames": {

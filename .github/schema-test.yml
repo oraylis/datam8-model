@@ -1,0 +1,21 @@
+name: Validate json schema files
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: action/checkout@v5
+
+      - name: run validation
+        run: |
+          python ./validate-schema.py

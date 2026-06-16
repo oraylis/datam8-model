@@ -207,6 +207,18 @@
         },
         "type": {
           "type": "string"
+        },
+        "description":{
+          "type": "string"
+        },
+        "properties":{
+          "type": "array",
+          "items":{
+            "$ref": "./property.json#/definitions/PropertyReference"
+          }
+        },
+        "sourceOverride":{
+          "$ref": "#/definitions/SourceOverride"
         }
       }
     },
@@ -245,6 +257,23 @@
         },
         "isPrimaryKey": {
           "type": "boolean"
+        },
+        "properties":{
+          "type": "array",
+          "items":{
+            "$ref": "./property.json#/definitions/PropertyReference"
+          }
+        }
+      }
+    },
+    "SourceOverride": {
+      "required": [],
+      "properties":{
+        "dataSource": {
+          "type": "string"
+        },
+        "sourceLocation": {
+          "type": "string"
         }
       }
     }

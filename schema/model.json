@@ -290,7 +290,7 @@
       }
     },
     "ModelRelationship": {
-      "description": "Maps attributes to a target location.",
+      "description": "Maps attributes to an internal or external target location.",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -298,8 +298,16 @@
         "attributes"
       ],
       "properties": {
+        "dataSource": {
+          "type": "string",
+          "minLength": 1
+        },
         "targetLocation": {
-          "type": "integer"
+          "type": [
+            "integer",
+            "string"
+          ],
+          "minLength": 1
         },
         "alias": {
           "type": "string"
@@ -311,7 +319,38 @@
             "$ref": "#/definitions/ModelAttributeMapping"
           }
         }
-      }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "targetLocation",
+            "attributes"
+          ],
+          "not": {
+            "required": [
+              "dataSource"
+            ]
+          },
+          "properties": {
+            "targetLocation": {
+              "type": "integer"
+            }
+          }
+        },
+        {
+          "required": [
+            "dataSource",
+            "targetLocation",
+            "attributes"
+          ],
+          "properties": {
+            "targetLocation": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
     },
     "ModelAttributeMapping": {
       "description": "Single attribute mapping.",

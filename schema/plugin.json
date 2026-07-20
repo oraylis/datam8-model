@@ -103,6 +103,12 @@
                         "number",
                         "null"
                       ]
+                    },
+                    "enum": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
                     }
                   }
                 }

@@ -303,14 +303,9 @@
           "minLength": 1
         },
         "targetLocation": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string",
-              "minLength": 1
-            }
+          "type": [
+            "integer",
+            "string"
           ]
         },
         "alias": {
@@ -324,31 +319,26 @@
           }
         }
       },
-      "oneOf": [
-        {
-          "not": {
-            "required": [
-              "dataSource"
-            ]
-          },
-          "properties": {
-            "targetLocation": {
-              "type": "integer"
-            }
-          }
-        },
-        {
-          "required": [
-            "dataSource"
-          ],
-          "properties": {
-            "targetLocation": {
-              "type": "string",
-              "minLength": 1
-            }
+      "if": {
+        "required": [
+          "dataSource"
+        ]
+      },
+      "then": {
+        "properties": {
+          "targetLocation": {
+            "type": "string",
+            "minLength": 1
           }
         }
-      ]
+      },
+      "else": {
+        "properties": {
+          "targetLocation": {
+            "type": "integer"
+          }
+        }
+      }
     },
     "ModelAttributeMapping": {
       "description": "Single attribute mapping.",

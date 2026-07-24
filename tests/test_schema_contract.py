@@ -4,7 +4,6 @@ from pathlib import Path
 
 from jsonschema import Draft7Validator, RefResolver
 
-
 SCHEMA_DIR = Path(__file__).parents[1] / "schema"
 
 
@@ -125,9 +124,9 @@ class PluginAndSolutionSchemaTests(unittest.TestCase):
         ]["properties"]["fields"]["items"]["properties"]
         self.assertEqual({"type": "string"}, ui_field["enum"]["items"])
 
-    def test_plugins_path_is_optional_with_default(self) -> None:
+    def test_plugins_path_is_required_with_documented_default(self) -> None:
         schema = load_schema("solution.json")
-        self.assertNotIn("pluginsPath", schema["required"])
+        self.assertIn("pluginsPath", schema["required"])
         self.assertEqual("Plugins", schema["properties"]["pluginsPath"]["default"])
 
 

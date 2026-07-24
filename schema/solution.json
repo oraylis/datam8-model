@@ -9,6 +9,7 @@
     "schemaVersion",
     "modelPath",
     "basePath",
+    "pluginsPath",
     "generatorTargets"
   ],
   "properties": {

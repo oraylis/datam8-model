@@ -151,6 +151,9 @@
             "string"
           ]
         },
+        "metadataLocation": {
+          "type": "string"
+        },
         "properties": {
           "type": "array",
           "uniqueItems": true,

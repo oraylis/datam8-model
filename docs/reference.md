@@ -57,14 +57,15 @@ concrete example; check its pinned consumer versions before running it.
 ## Consumer generation
 
 The backend pins this repository as `datam8-model/`. Its
-[build hook](https://github.com/oraylis/datam8-cli/blob/feature/external_refresh/hatch_build_datamodel.py) generates Pydantic code into
+[build hook](https://github.com/oraylis/datam8-cli/blob/main/hatch_build_datamodel.py) generates Pydantic code into
 `src/datam8_model` during builds. Follow the backend's `uv build` procedure and
 inspect generated diffs. Do not patch generated Python as a substitute for schemas.
 
 Frontend uses `submodules/datam8-generator/datam8-model/schema` and
 `npm run generate:schema-types` to generate web schema types. Its hand-written
-`packages/types` is a separate shared package. Follow
-[frontend generation](https://github.com/oraylis/datam8-frontend/blob/feature/external_refresh/scripts/generate-schema-types.mjs).
+`packages/types` is a separate shared package. The implementation is
+`scripts/generate-schema-types.mjs` in the
+[frontend repository](https://github.com/oraylis/datam8-frontend/tree/main).
 
 ## Compatibility policy
 
@@ -75,7 +76,4 @@ needs validation against readers using `additionalProperties: false`.
 
 Structural validity is not complete model validity: reference resolution,
 property interpretation and runtime semantics belong to the backend/selected target.
-Use [central compatibility](https://github.com/oraylis/datam8/blob/codex/documentation-v2/docs/compatibility.md) and actual consumer tests.
-Documentation-only changes leave schema JSON and consumer pins unchanged. The
-`2.0.0` candidate also corrects the manifest contract and includes the optional
-metadata location field; see [the release handoff](documentation-handoff.md).
+Verify compatibility with actual consumer tests.

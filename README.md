@@ -3,13 +3,10 @@
 This repository owns the JSON Schema definitions for DataM8 v2 solutions, Base,
 model entities, attributes, sources, relationships, folder metadata and plugins.
 Schemas use JSON Schema draft-07 and reside in [schema](schema).
-These schemas target the regular release `v2.0.0`; publication
-follows maintainer review, manual merge and checks on the merged commit.
+This repository defines the `2.0.0` schema contract.
 
 - [Schema map, minimal example and consumer generation](docs/reference.md)
-- [Central concepts](https://github.com/oraylis/datam8/blob/codex/documentation-v2/docs/concepts.md)
-- [Compatibility and evidence](https://github.com/oraylis/datam8/blob/codex/documentation-v2/docs/compatibility.md)
-- [Documentation handoff](docs/documentation-handoff.md)
+- [Central documentation](https://github.com/oraylis/datam8/tree/main/docs)
 
 Pin a tag or commit in each consumer; `schemaVersion` alone does not identify the
 exact schema revision. Change schemas here before regenerating Python/TypeScript

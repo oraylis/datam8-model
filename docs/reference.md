@@ -19,9 +19,21 @@
 | Diagrams | [diagram](../schema/diagram.json) |
 
 Read the source's `required`, `additionalProperties` and `$ref` constraints; a
-field accepted by another branch is not necessarily accepted here. The plugin
-schema currently requires `type` without declaring it among permitted properties;
-this inconsistency needs its own schema/consumer regression fix, not a prose workaround.
+field accepted by another branch is not necessarily accepted here.
+
+## Source metadata location
+
+`ExternalModelSource.metadataLocation` is an optional string identifying a source's
+metadata location separately from its `sourceLocation`. Omitting it preserves the
+existing source shape. The schema does not require a nonempty string or define
+runtime lookup or fallback behavior; those semantics belong to the consumer.
+
+## Plugin manifest contract
+
+A manifest requires `id`, `version`, `entryPoint` and `capabilities`; `displayName`
+is optional. There is no top-level `type` field, and undeclared properties remain
+invalid. This matches the backend and frontend manifest types and the sample's
+plugin manifests. UI field definitions still require their own `type`.
 
 ## Minimal solution descriptor
 
@@ -39,7 +51,8 @@ this inconsistency needs its own schema/consumer regression fix, not a prose wor
 
 This is a structural descriptor example. It is not a runnable solution without
 the referenced Base, Model, Plugins and target files. See the
-[sample](https://github.com/oraylis/datam8-sample-solution/blob/codex/documentation-v2/docs/getting-started.md) for a complete concrete example.
+[sample](https://github.com/oraylis/datam8-sample-solution/tree/main) for a complete
+concrete example; check its pinned consumer versions before running it.
 
 ## Consumer generation
 
@@ -63,4 +76,6 @@ needs validation against readers using `additionalProperties: false`.
 Structural validity is not complete model validity: reference resolution,
 property interpretation and runtime semantics belong to the backend/selected target.
 Use [central compatibility](https://github.com/oraylis/datam8/blob/codex/documentation-v2/docs/compatibility.md) and actual consumer tests.
-Documentation changes here leave schema JSON and consumer pins unchanged.
+Documentation-only changes leave schema JSON and consumer pins unchanged. The
+`2.0.0` candidate also corrects the manifest contract and includes the optional
+metadata location field; see [the release handoff](documentation-handoff.md).

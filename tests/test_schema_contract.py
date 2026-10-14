@@ -5,6 +5,10 @@ from pathlib import Path
 from jsonschema import Draft7Validator, RefResolver
 
 SCHEMA_DIR = Path(__file__).parents[1] / "schema"
+MANIFEST_DIR = Path(__file__).parent / "fixtures" / "plugin-manifests"
+# Fixtures snapshot sample Plugins/Test/test.json at 1e1855e59e2734b3a393f9128193504626ab9380
+# and the CLI SQL Server built-in manifest at 7e8a743577097a23e156e281bcd3dbf514a0bd66
+# (its configured package version is 2.0.0). Neither fixture needs a consumer checkout.
 
 
 def load_schema(name: str) -> dict:
@@ -57,6 +61,29 @@ class DataSourceSchemaTests(unittest.TestCase):
                 "description": "Ordered item count",
             }
         )
+
+
+class ExternalSourceSchemaTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.validator = definition_validator(
+            load_schema("model.json"), "ExternalModelSource"
+        )
+        self.source = {"dataSource": "crm", "sourceLocation": "sales.customers"}
+
+    def test_metadata_location_is_optional(self) -> None:
+        self.validator.validate(self.source)
+
+    def test_metadata_location_accepts_strings(self) -> None:
+        for location in ("contracts/customers#id", ""):
+            with self.subTest(location=location):
+                self.validator.validate({**self.source, "metadataLocation": location})
+
+    def test_metadata_location_rejects_non_strings(self) -> None:
+        for location in (None, 12, 1.5, True, [], {}):
+            with self.subTest(location=location):
+                self.assertFalse(
+                    self.validator.is_valid({**self.source, "metadataLocation": location})
+                )
 
 
 class RelationshipSchemaTests(unittest.TestCase):
@@ -115,6 +142,46 @@ class RelationshipSchemaTests(unittest.TestCase):
 
 
 class PluginAndSolutionSchemaTests(unittest.TestCase):
+    def setUp(self) -> None:
+        schema = load_schema("plugin.json")
+        self.manifest_validator = Draft7Validator(
+            schema, resolver=RefResolver.from_schema(schema)
+        )
+        self.manifests = {
+            path.name: json.loads(path.read_text(encoding="utf-8"))
+            for path in MANIFEST_DIR.glob("*.json")
+        }
+
+    def test_real_manifests_without_type_are_valid(self) -> None:
+        self.assertEqual({"sample-test.json", "builtin-sqlserver.json"}, set(self.manifests))
+        for name, manifest in self.manifests.items():
+            with self.subTest(manifest=name):
+                self.assertNotIn("type", manifest)
+                self.manifest_validator.validate(manifest)
+
+    def test_manifest_rejects_missing_required_fields(self) -> None:
+        manifest = self.manifests["sample-test.json"]
+        for field in ("id", "version", "entryPoint", "capabilities"):
+            with self.subTest(field=field):
+                incomplete = {key: value for key, value in manifest.items() if key != field}
+                self.assertFalse(self.manifest_validator.is_valid(incomplete))
+
+    def test_manifest_rejects_undeclared_properties(self) -> None:
+        for field in ("type", "unexpected"):
+            with self.subTest(field=field):
+                self.assertFalse(
+                    self.manifest_validator.is_valid(
+                        {**self.manifests["sample-test.json"], field: "connector"}
+                    )
+                )
+
+    def test_manifest_rejects_unknown_capability(self) -> None:
+        self.assertFalse(
+            self.manifest_validator.is_valid(
+                {**self.manifests["sample-test.json"], "capabilities": ["unknown"]}
+            )
+        )
+
     def test_plugin_schema_exposes_preview_and_string_enums(self) -> None:
         schema = load_schema("plugin.json")
         self.assertIn("previewData", schema["definitions"]["Capability"]["enum"])

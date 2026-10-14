@@ -3,6 +3,8 @@
 This repository owns the JSON Schema definitions for DataM8 v2 solutions, Base,
 model entities, attributes, sources, relationships, folder metadata and plugins.
 Schemas use JSON Schema draft-07 and reside in [schema](schema).
+These schemas target the regular release `v2.0.0`; publication
+follows maintainer review, manual merge and checks on the merged commit.
 
 - [Schema map, minimal example and consumer generation](docs/reference.md)
 - [Central concepts](https://github.com/oraylis/datam8/blob/codex/documentation-v2/docs/concepts.md)
@@ -18,6 +20,7 @@ types. Backend runtime validation may add semantic checks beyond structural sche
 ```sh
 python validate-schema.py
 python -m unittest discover -s tests
+node --test scripts/check-docs.test.mjs
 node scripts/check-docs.mjs
 ```
 

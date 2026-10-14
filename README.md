@@ -1,27 +1,26 @@
 # DataM8 Model
-This repo contains the metadata schema used by DataM8 to generate ...
 
-The model describes common objects used to describe a data warehouse or lakehouse, e.g.
-* data sources
-* tables / entities
-* columns
-* data type mappings
+This repository owns the JSON Schema definitions for DataM8 v2 solutions, Base,
+model entities, attributes, sources, relationships, folder metadata and plugins.
+Schemas use JSON Schema draft-07 and reside in [schema](schema).
+This repository defines the `2.0.0` schema contract.
 
-> [!IMPORTANT]
-> The main branch may contain active development, which could result in an inconsistent schema.
-> Always use [releases] or their respective [version tags] or commit hashes directly when
-> referencing the schema.
+- [Schema map, minimal example and consumer generation](docs/reference.md)
+- [Central documentation](https://github.com/oraylis/datam8/tree/main/docs)
 
-[releases]: https://github.com/oraylis/datam8-model/releases
-[version tags]: https://github.com/oraylis/datam8-model/tags
+Pin a tag or commit in each consumer; `schemaVersion` alone does not identify the
+exact schema revision. Change schemas here before regenerating Python/TypeScript
+types. Backend runtime validation may add semantic checks beyond structural schemas.
 
-## Issues
-Issues are centrally maintained in a different repository
+## Checks
 
-https://github.com/oraylis/datam8
+```sh
+python validate-schema.py
+python -m unittest discover -s tests
+node --test scripts/check-docs.test.mjs
+node scripts/check-docs.mjs
+```
 
-## Documentation
-The DataM8 documentation is also centrally stored at the following place
-
-https://github.com/oraylis/datam8/tree/main/docs
-
+Install `jsonschema` for schema checks and use Node 24 for documentation checks.
+Issues are tracked in [DataM8](https://github.com/oraylis/datam8/issues).
+For sensitive reports, see [SECURITY.md](SECURITY.md).

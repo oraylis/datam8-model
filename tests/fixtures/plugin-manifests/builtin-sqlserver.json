@@ -1,0 +1,7 @@
+{
+  "id": "builtin:SQLServer",
+  "displayName": "SQL Server (built-in)",
+  "version": "2.0.0",
+  "entryPoint": "datam8.plugins.builtins.sql_server:SqlServer",
+  "capabilities": ["metadata", "previewData", "uiSchema", "validationConnection"]
+}

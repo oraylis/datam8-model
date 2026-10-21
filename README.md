@@ -33,3 +33,5 @@ This repository does not build or publish application packages.
 
 Issues are tracked in [DataM8](https://github.com/oraylis/datam8/issues).
 For sensitive reports, see [SECURITY.md](SECURITY.md).
+
+<!-- Temporary documentation-only CI acceptance reference. -->

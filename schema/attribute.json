@@ -64,8 +64,7 @@
         {
           "type": "string"
         }
-      ],
-      "default": "sql"
+      ]
     },
     "unit": {
       "$comment": "TODO: Validate concept of units and where they are maintained.",

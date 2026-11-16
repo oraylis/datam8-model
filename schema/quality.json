@@ -1,0 +1,375 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oraylis.de/datam8/schema/quality.json",
+  "title": "Quality",
+  "description": "Platform-neutral entity quality requirements. Enforcement always retains rejected rows in quarantine.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "checks"
+  ],
+  "properties": {
+    "settings": {
+      "title": "QualitySettings",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maxFailureRatePct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Stop dependent processing after writing valid rows when the percentage of distinct error rows exceeds this value. Omit to disable threshold failure."
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/definitions/NotNullCheck"
+          },
+          {
+            "$ref": "#/definitions/RangeCheck"
+          },
+          {
+            "$ref": "#/definitions/SqlExpressionCheck"
+          },
+          {
+            "$ref": "#/definitions/CompletenessCheck"
+          },
+          {
+            "$ref": "#/definitions/FreshnessCheck"
+          },
+          {
+            "$ref": "#/definitions/RowCountCheck"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "NotNullCheck": {
+      "title": "NotNullCheck",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "execution",
+        "severity",
+        "attribute"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "not_null"
+        },
+        "execution": {
+          "enum": [
+            "enforcement",
+            "monitoring"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning"
+          ]
+        },
+        "attribute": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "RangeCheck": {
+      "title": "RangeCheck",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "execution",
+        "severity",
+        "attribute",
+        "parameters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "range"
+        },
+        "execution": {
+          "enum": [
+            "enforcement",
+            "monitoring"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning"
+          ]
+        },
+        "attribute": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "min"
+              ]
+            },
+            {
+              "required": [
+                "max"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "SqlExpressionCheck": {
+      "title": "SqlExpressionCheck",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "execution",
+        "severity",
+        "parameters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "sql_expression"
+        },
+        "execution": {
+          "enum": [
+            "enforcement",
+            "monitoring"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning"
+          ]
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "expression": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "expression"
+          ]
+        }
+      }
+    },
+    "CompletenessCheck": {
+      "title": "CompletenessCheck",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "execution",
+        "severity",
+        "attribute",
+        "parameters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "completeness"
+        },
+        "execution": {
+          "enum": [
+            "monitoring"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning"
+          ]
+        },
+        "attribute": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "minCompleteness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "minCompleteness"
+          ]
+        }
+      }
+    },
+    "FreshnessCheck": {
+      "title": "FreshnessCheck",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "execution",
+        "severity",
+        "attribute",
+        "parameters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "freshness"
+        },
+        "execution": {
+          "enum": [
+            "monitoring"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning"
+          ]
+        },
+        "attribute": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "maxAgeSeconds": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "maxAgeSeconds"
+          ]
+        }
+      }
+    },
+    "RowCountCheck": {
+      "title": "RowCountCheck",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "execution",
+        "severity",
+        "parameters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "row_count"
+        },
+        "execution": {
+          "enum": [
+            "monitoring"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning"
+          ]
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "minCount": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxCount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "minCount"
+              ]
+            },
+            {
+              "required": [
+                "maxCount"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

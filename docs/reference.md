@@ -7,6 +7,7 @@
 | Solution paths and generator targets | [solution](../schema/solution.json) |
 | Base collections | [base](../schema/base.json) |
 | Entity, sources, mappings, relationships and transformations | [model](../schema/model.json) |
+| Entity quality requirements | [quality](../schema/quality.json) |
 | Attributes and history metadata | [attribute](../schema/attribute.json) |
 | Folder metadata | [folder](../schema/folder.json) |
 | Data types and mappings | [data type](../schema/data-type.json) |
@@ -77,3 +78,18 @@ needs validation against readers using `additionalProperties: false`.
 Structural validity is not complete model validity: reference resolution,
 property interpretation and runtime semantics belong to the backend/selected target.
 Verify compatibility with actual consumer tests.
+
+## Quality requirements
+
+`ModelEntity.quality` is optional. Checks have entity-local stable IDs, a
+platform-neutral type, execution mode and severity. Not Null, numeric Range and
+SQL Expression support enforcement and monitoring; Completeness, Freshness and
+Row Count support monitoring only. Settings optionally define a failure percentage
+from 0 to 100. Enforcement retains error rows in quarantine; warning-only rows
+remain valid. Omitting quality preserves existing entities.
+
+Range bounds are inclusive and NULL is allowed (use a separate Not Null rule).
+Completeness measures non-NULL values, not nonempty strings. Freshness compares
+the latest timestamp against the evaluation time in seconds and rejects future
+timestamps. The backend owns cross-field bounds, ID uniqueness, attribute
+resolution and execution semantics.

@@ -81,29 +81,19 @@ Verify compatibility with actual consumer tests.
 
 ## Quality requirements
 
-`ModelEntity.quality` is optional. Checks have entity-local stable IDs, a
-platform-neutral type, execution mode and severity. Not Null, numeric Range and
-SQL Expression support enforcement and monitoring; Completeness, Freshness and
-Row Count support monitoring only. Settings optionally define a failure percentage
-from 0 to 100. Enforcement retains error rows in quarantine; warning-only rows
-remain valid. Omitting quality preserves existing entities.
+`ModelEntity.quality` is optional. Every check uses the same structure: stable
+entity-local `id`, `execution` (`enforcement` or `monitoring`), an open object
+`definition`, and optional `description`. There is no check type catalogue and
+no prescribed tool-specific definition format. A target may interpret a native
+DQX rule, a different tool's rule, or its own declarative configuration.
 
-Range bounds are inclusive and NULL is allowed (use a separate Not Null rule).
-Completeness measures non-NULL values, not nonempty strings. Freshness compares
-the latest timestamp against the evaluation time in seconds and rejects future
-timestamps. The backend owns cross-field bounds, ID uniqueness, attribute
-resolution and execution semantics.
+`settings.maxFailureRatePct` is an optional percentage from 0 to 100. Additional
+settings are open target options. `referenceDatasets` maps aliases to open binding
+objects; optional `entityId` and `execution` provide shared reference metadata.
+Targets own other binding details, dependency formats and execution semantics.
+The core validates unique IDs, finite JSON values and active entity references.
+Function names, arguments, SQL and engine-specific metadata are target concerns.
 
-For native declarative DQX checks use `type: "dqx"`, a stable `id`, `execution`
-and `definition`. The definition retains the native envelope: `check.function`,
-optional `check.arguments`, `check.for_each_column`, `criticality`, `filter`,
-`message_expr` and `user_metadata`. Functions and argument keys are open-ended;
-the deployed DQX version validates them. Omitted criticality means `error`.
-The generated `user_metadata.datam8_check_id` is reserved for audit attribution.
-The six simpler check types remain valid for existing models.
-
-`referenceDatasets` maps aliases to either an active model `entityId` or a `table`
-name. Bindings optionally specify `execution` (otherwise both modes); only the
-executing mode loads those DataFrames. Additional native-check dependencies are
-declared as PyPI requirements in `settings.dependencies`. These declarations are
-model data; no Python implementation per rule is required.
+The previous six specialized check shapes and `type: "dqx"` are no longer accepted.
+Convert existing metadata explicitly before loading it with this schema. Keep
+check IDs and audit history; the new configuration produces a new rule-set hash.

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/quality.json",
   "title": "Quality",
-  "description": "Entity quality requirements and declarative native DQX definitions. Enforcement retains rejected rows in quarantine.",
+  "description": "Tool-neutral entity quality configuration. Generator targets interpret rule definitions and target options.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,434 +12,75 @@
     "settings": {
       "title": "QualitySettings",
       "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "maxFailureRatePct": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 100,
-          "description": "Stop dependent processing after writing valid rows when the percentage of distinct error rows exceeds this value. Omit to disable threshold failure."
-        },
-        "dependencies": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "description": "Additional PyPI requirements needed by native DQX checks, installed on the executing classic tasks."
+      "additionalProperties": true,
+      "description": "Common quality settings plus open target-specific options.",
+      "if": {
+        "required": [
+          "maxFailureRatePct"
+        ]
+      },
+      "then": {
+        "properties": {
+          "maxFailureRatePct": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Stop dependent processing after writing valid rows when the distinct error-row percentage strictly exceeds this value. Omit to disable the gate."
+          }
         }
       }
     },
     "checks": {
       "type": "array",
       "items": {
-        "oneOf": [
-          {
-            "$ref": "#/definitions/NotNullCheck"
-          },
-          {
-            "$ref": "#/definitions/RangeCheck"
-          },
-          {
-            "$ref": "#/definitions/SqlExpressionCheck"
-          },
-          {
-            "$ref": "#/definitions/CompletenessCheck"
-          },
-          {
-            "$ref": "#/definitions/FreshnessCheck"
-          },
-          {
-            "$ref": "#/definitions/RowCountCheck"
-          },
-          {
-            "$ref": "#/definitions/DqxCheck"
-          }
-        ]
+        "$ref": "#/definitions/QualityCheck"
       }
     },
     "referenceDatasets": {
       "type": "object",
-      "description": "Named DataFrames supplied to DQX reference checks. All bindings are declared in the model.",
+      "description": "Named data references. Targets interpret binding details; entityId and execution are optional shared reference metadata.",
       "additionalProperties": {
-        "oneOf": [
-          {
-            "title": "QualityEntityReference",
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "entityId"
-            ],
-            "properties": {
-              "entityId": {
-                "type": "integer",
-                "minimum": 0
-              },
-              "execution": {
-                "enum": [
-                  "enforcement",
-                  "monitoring"
-                ],
-                "description": "Omit to supply this binding in both execution modes."
-              }
+        "title": "QualityReference",
+        "type": "object",
+        "additionalProperties": true,
+        "if": {
+          "anyOf": [
+            {
+              "required": [
+                "entityId"
+              ]
+            },
+            {
+              "required": [
+                "execution"
+              ]
             }
-          },
-          {
-            "title": "QualityTableReference",
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "table"
-            ],
-            "properties": {
-              "table": {
-                "type": "string",
-                "minLength": 1
-              },
-              "execution": {
-                "enum": [
-                  "enforcement",
-                  "monitoring"
-                ],
-                "description": "Omit to supply this binding in both execution modes."
-              }
+          ]
+        },
+        "then": {
+          "properties": {
+            "entityId": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "execution": {
+              "enum": [
+                "enforcement",
+                "monitoring"
+              ]
             }
           }
-        ]
+        }
       }
     }
   },
   "definitions": {
-    "NotNullCheck": {
-      "title": "NotNullCheck",
+    "QualityCheck": {
+      "title": "QualityCheck",
       "type": "object",
       "additionalProperties": false,
       "required": [
         "id",
-        "type",
-        "execution",
-        "severity",
-        "attribute"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
-        },
-        "description": {
-          "type": "string"
-        },
-        "type": {
-          "const": "not_null"
-        },
-        "execution": {
-          "enum": [
-            "enforcement",
-            "monitoring"
-          ]
-        },
-        "severity": {
-          "enum": [
-            "error",
-            "warning"
-          ]
-        },
-        "attribute": {
-          "type": "string",
-          "minLength": 1
-        }
-      }
-    },
-    "RangeCheck": {
-      "title": "RangeCheck",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "type",
-        "execution",
-        "severity",
-        "attribute",
-        "parameters"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
-        },
-        "description": {
-          "type": "string"
-        },
-        "type": {
-          "const": "range"
-        },
-        "execution": {
-          "enum": [
-            "enforcement",
-            "monitoring"
-          ]
-        },
-        "severity": {
-          "enum": [
-            "error",
-            "warning"
-          ]
-        },
-        "attribute": {
-          "type": "string",
-          "minLength": 1
-        },
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "min": {
-              "type": "number"
-            },
-            "max": {
-              "type": "number"
-            }
-          },
-          "anyOf": [
-            {
-              "required": [
-                "min"
-              ]
-            },
-            {
-              "required": [
-                "max"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    "SqlExpressionCheck": {
-      "title": "SqlExpressionCheck",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "type",
-        "execution",
-        "severity",
-        "parameters"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
-        },
-        "description": {
-          "type": "string"
-        },
-        "type": {
-          "const": "sql_expression"
-        },
-        "execution": {
-          "enum": [
-            "enforcement",
-            "monitoring"
-          ]
-        },
-        "severity": {
-          "enum": [
-            "error",
-            "warning"
-          ]
-        },
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "expression": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "required": [
-            "expression"
-          ]
-        }
-      }
-    },
-    "CompletenessCheck": {
-      "title": "CompletenessCheck",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "type",
-        "execution",
-        "severity",
-        "attribute",
-        "parameters"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
-        },
-        "description": {
-          "type": "string"
-        },
-        "type": {
-          "const": "completeness"
-        },
-        "execution": {
-          "enum": [
-            "monitoring"
-          ]
-        },
-        "severity": {
-          "enum": [
-            "error",
-            "warning"
-          ]
-        },
-        "attribute": {
-          "type": "string",
-          "minLength": 1
-        },
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "minCompleteness": {
-              "type": "number",
-              "minimum": 0,
-              "maximum": 1
-            }
-          },
-          "required": [
-            "minCompleteness"
-          ]
-        }
-      }
-    },
-    "FreshnessCheck": {
-      "title": "FreshnessCheck",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "type",
-        "execution",
-        "severity",
-        "attribute",
-        "parameters"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
-        },
-        "description": {
-          "type": "string"
-        },
-        "type": {
-          "const": "freshness"
-        },
-        "execution": {
-          "enum": [
-            "monitoring"
-          ]
-        },
-        "severity": {
-          "enum": [
-            "error",
-            "warning"
-          ]
-        },
-        "attribute": {
-          "type": "string",
-          "minLength": 1
-        },
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "maxAgeSeconds": {
-              "type": "integer",
-              "minimum": 0
-            }
-          },
-          "required": [
-            "maxAgeSeconds"
-          ]
-        }
-      }
-    },
-    "RowCountCheck": {
-      "title": "RowCountCheck",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "type",
-        "execution",
-        "severity",
-        "parameters"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
-        },
-        "description": {
-          "type": "string"
-        },
-        "type": {
-          "const": "row_count"
-        },
-        "execution": {
-          "enum": [
-            "monitoring"
-          ]
-        },
-        "severity": {
-          "enum": [
-            "error",
-            "warning"
-          ]
-        },
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "minCount": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "maxCount": {
-              "type": "integer",
-              "minimum": 0
-            }
-          },
-          "anyOf": [
-            {
-              "required": [
-                "minCount"
-              ]
-            },
-            {
-              "required": [
-                "maxCount"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    "DqxCheck": {
-      "title": "DqxCheck",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "type",
         "execution",
         "definition"
       ],
@@ -448,85 +89,19 @@
           "type": "string",
           "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
         },
-        "description": {
-          "type": "string"
-        },
-        "type": {
-          "const": "dqx"
-        },
         "execution": {
           "enum": [
             "enforcement",
             "monitoring"
           ]
         },
+        "description": {
+          "type": "string"
+        },
         "definition": {
-          "title": "DqxRuleDefinition",
           "type": "object",
           "additionalProperties": true,
-          "required": [
-            "check"
-          ],
-          "properties": {
-            "name": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "criticality": {
-              "enum": [
-                "error",
-                "warn"
-              ]
-            },
-            "check": {
-              "title": "DqxFunctionDefinition",
-              "type": "object",
-              "additionalProperties": true,
-              "required": [
-                "function"
-              ],
-              "properties": {
-                "function": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "arguments": {
-                  "type": "object",
-                  "additionalProperties": true
-                },
-                "for_each_column": {
-                  "type": [
-                    "array",
-                    "null"
-                  ],
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "filter": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "message_expr": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "user_metadata": {
-              "type": [
-                "object",
-                "null"
-              ],
-              "additionalProperties": true
-            }
-          }
+          "description": "Opaque rule configuration interpreted and validated by the selected generator target. No tool-specific keys or functions are prescribed by this schema."
         }
       }
     }

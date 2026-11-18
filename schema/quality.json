@@ -469,7 +469,10 @@
           ],
           "properties": {
             "name": {
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "criticality": {
               "enum": [
@@ -494,7 +497,10 @@
                   "additionalProperties": true
                 },
                 "for_each_column": {
-                  "type": "array",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
                   "items": {
                     "type": "string"
                   }
@@ -502,13 +508,22 @@
               }
             },
             "filter": {
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "message_expr": {
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "user_metadata": {
-              "type": "object",
+              "type": [
+                "object",
+                "null"
+              ],
               "additionalProperties": true
             }
           }

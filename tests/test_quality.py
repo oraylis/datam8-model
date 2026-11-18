@@ -36,3 +36,21 @@ class QualitySchemaTests(unittest.TestCase):
         ]:
             check = copy.deepcopy(self.check); check.update(patch)
             self.assertTrue(list(self.validator.iter_errors({"checks": [check]})), patch)
+
+    def test_native_dqx_is_open_and_reference_bindings_are_modelled(self):
+        for function, arguments in [("is_in_list", {"column": "Id", "allowed": [1, 2]}),
+                                    ("future_dqx_function", {"arbitrary": {"nested": [True, None]}})]:
+            check = {"id": "native", "type": "dqx", "execution": "monitoring",
+                     "definition": {"check": {"function": function, "arguments": arguments},
+                                    "filter": "Id > 0", "user_metadata": {"owner": "team"}}}
+            self.validator.validate({"checks": [check], "settings": {"dependencies": ["package==1.0"]},
+                                     "referenceDatasets": {"other": {"entityId": 12, "execution": "monitoring"},
+                                                           "external": {"table": "catalog.schema.table"}}})
+
+    def test_native_dqx_rejects_malformed_common_fields(self):
+        definition = {"check": {"function": "is_unique", "arguments": {"columns": ["Id"]}}}
+        for patch in [{"check": {"function": ""}}, {"check": {"function": "is_unique", "arguments": []}},
+                      {"criticality": "warning"}, {"filter": None}, {"user_metadata": []}]:
+            check = {"id": "native", "type": "dqx", "execution": "enforcement",
+                     "definition": dict(definition, **patch)}
+            self.assertTrue(list(self.validator.iter_errors({"checks": [check]})), patch)

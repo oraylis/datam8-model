@@ -93,3 +93,17 @@ Completeness measures non-NULL values, not nonempty strings. Freshness compares
 the latest timestamp against the evaluation time in seconds and rejects future
 timestamps. The backend owns cross-field bounds, ID uniqueness, attribute
 resolution and execution semantics.
+
+For native declarative DQX checks use `type: "dqx"`, a stable `id`, `execution`
+and `definition`. The definition retains the native envelope: `check.function`,
+optional `check.arguments`, `check.for_each_column`, `criticality`, `filter`,
+`message_expr` and `user_metadata`. Functions and argument keys are open-ended;
+the deployed DQX version validates them. Omitted criticality means `error`.
+The generated `user_metadata.datam8_check_id` is reserved for audit attribution.
+The six simpler check types remain valid for existing models.
+
+`referenceDatasets` maps aliases to either an active model `entityId` or a `table`
+name. Bindings optionally specify `execution` (otherwise both modes); only the
+executing mode loads those DataFrames. Additional native-check dependencies are
+declared as PyPI requirements in `settings.dependencies`. These declarations are
+model data; no Python implementation per rule is required.

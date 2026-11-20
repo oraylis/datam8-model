@@ -81,19 +81,29 @@ Verify compatibility with actual consumer tests.
 
 ## Quality requirements
 
-`ModelEntity.quality` is optional. Every check uses the same structure: stable
-entity-local `id`, `execution` (`enforcement` or `monitoring`), an open object
-`definition`, and optional `description`. There is no check type catalogue and
-no prescribed tool-specific definition format. A target may interpret a native
-DQX rule, a different tool's rule, or its own declarative configuration.
+`ModelEntity.quality` is optional. When present it requires a `checks` list (which
+may be empty). The closed contract has `maxFailureRatePct` and `references` as
+optional entity-wide fields. There are no free definition, settings or arguments
+objects and no check-type catalogue.
 
-`settings.maxFailureRatePct` is an optional percentage from 0 to 100. Additional
-settings are open target options. `referenceDatasets` maps aliases to open binding
-objects; optional `entityId` and `execution` provide shared reference metadata.
-Targets own other binding details, dependency formats and execution semantics.
-The core validates unique IDs, finite JSON values and active entity references.
-Function names, arguments, SQL and engine-specific metadata are target concerns.
+Each check requires a stable `id`, `execution` (`enforcement` or `monitoring`) and
+a nonblank SQL `expression`. Optional fields are `severity` (`error` by default,
+or `warning`), `description`, `sql` and `onEmpty`. Only TRUE passes an expression;
+FALSE and NULL violate it. Targets must validate the original Boolean type before
+NULL normalization, including for empty inputs.
 
-The previous six specialized check shapes and `type: "dqx"` are no longer accepted.
-Convert existing metadata explicitly before loading it with this schema. Keep
-check IDs and audit history; the new configuration produces a new rule-set hash.
+`sql` is monitoring-only. It must return exactly one row and exactly two columns:
+nonnegative BIGINT-compatible `checked_rows` and numeric-or-NULL `measured_value`.
+`onEmpty` is allowed only with `sql`: `evaluate` is the default; `no_data` produces
+NO_DATA for `checked_rows = 0` after technical validation. Empty row checks report
+NO_DATA. The query relations are `{target}` and declared `{references.alias}`.
+A reference has exactly `entityId`, pointing to an active model entity.
+
+The gate percentage is an optional finite number from 0 to 100 directly under
+`quality`. It counts distinct erroneous rows and fails strictly above the limit,
+after valid rows and audit metrics are written. Omission disables the gate.
+
+Solutions own their SQL capabilities, dialect translation, native rule generation
+and execution. DQX is not part of this schema. Unsupported constructs must fail
+explicitly. All configurations and examples use this contract directly; old
+shapes are rejected without conversion or implicit compatibility.

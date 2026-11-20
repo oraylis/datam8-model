@@ -2,33 +2,18 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/quality.json",
   "title": "Quality",
-  "description": "Tool-neutral entity quality configuration. Generator targets interpret rule definitions and target options.",
+  "description": "Fixed SQL quality contract. Solutions translate expressions and queries to their target runtime.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "checks"
   ],
   "properties": {
-    "settings": {
-      "title": "QualitySettings",
-      "type": "object",
-      "additionalProperties": true,
-      "description": "Common quality settings plus open target-specific options.",
-      "if": {
-        "required": [
-          "maxFailureRatePct"
-        ]
-      },
-      "then": {
-        "properties": {
-          "maxFailureRatePct": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 100,
-            "description": "Stop dependent processing after writing valid rows when the distinct error-row percentage strictly exceeds this value. Omit to disable the gate."
-          }
-        }
-      }
+    "maxFailureRatePct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Fail after valid target and metric writes when the distinct error-row percentage strictly exceeds this value. Omit to disable the gate."
     },
     "checks": {
       "type": "array",
@@ -36,45 +21,32 @@
         "$ref": "#/definitions/QualityCheck"
       }
     },
-    "referenceDatasets": {
+    "references": {
       "type": "object",
-      "description": "Named data references. Targets interpret binding details; entityId and execution are optional shared reference metadata.",
+      "propertyNames": {
+        "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+      },
       "additionalProperties": {
-        "title": "QualityReference",
-        "type": "object",
-        "additionalProperties": true,
-        "if": {
-          "anyOf": [
-            {
-              "required": [
-                "entityId"
-              ]
-            },
-            {
-              "required": [
-                "execution"
-              ]
-            }
-          ]
-        },
-        "then": {
-          "properties": {
-            "entityId": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "execution": {
-              "enum": [
-                "enforcement",
-                "monitoring"
-              ]
-            }
-          }
-        }
-      }
+        "$ref": "#/definitions/QualityReference"
+      },
+      "description": "Named active model entities, used in monitoring SQL as {references.alias}."
     }
   },
   "definitions": {
+    "QualityReference": {
+      "title": "QualityReference",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entityId"
+      ],
+      "properties": {
+        "entityId": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
     "QualityCheck": {
       "title": "QualityCheck",
       "type": "object",
@@ -82,7 +54,7 @@
       "required": [
         "id",
         "execution",
-        "definition"
+        "expression"
       ],
       "properties": {
         "id": {
@@ -90,18 +62,66 @@
           "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
         },
         "execution": {
+          "type": "string",
           "enum": [
             "enforcement",
             "monitoring"
           ]
         },
+        "expression": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Boolean SQL expression. Only TRUE passes; FALSE and NULL are violations."
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "error",
+            "warning"
+          ],
+          "description": "Defaults to error when omitted."
+        },
         "description": {
           "type": "string"
         },
-        "definition": {
-          "type": "object",
-          "additionalProperties": true,
-          "description": "Opaque rule configuration interpreted and validated by the selected generator target. No tool-specific keys or functions are prescribed by this schema."
+        "sql": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Monitoring-only query returning exactly one row with checked_rows and measured_value. Uses {target} and declared {references.alias} relations."
+        },
+        "onEmpty": {
+          "type": "string",
+          "enum": [
+            "evaluate",
+            "no_data"
+          ],
+          "description": "Only with sql. Defaults to evaluate; no_data reports NO_DATA when checked_rows is zero after technical validation."
+        }
+      },
+      "if": {
+        "anyOf": [
+          {
+            "required": [
+              "sql"
+            ]
+          },
+          {
+            "required": [
+              "onEmpty"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "required": [
+          "sql"
+        ],
+        "properties": {
+          "execution": {
+            "const": "monitoring"
+          }
         }
       }
     }

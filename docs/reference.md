@@ -88,14 +88,14 @@ objects and no check-type catalogue.
 
 Each check requires a stable `id`, `execution` (`enforcement` or `monitoring`) and
 a nonblank SQL `expression`. Optional fields are `severity` (`error` by default,
-or `warning`), `description`, `sql` and `onEmpty`. Only TRUE passes an expression;
-FALSE and NULL violate it. Targets must validate the original Boolean type before
-NULL normalization, including for empty inputs.
+or `warning`), `description`, `sql` and `onEmpty`. Expressions are passed unchanged
+to the target engine. NULL behavior follows that engine; express a desired failure
+on NULL explicitly, for example `COALESCE(Amount >= 0, FALSE)`.
 
 `sql` is monitoring-only. It must return exactly one row and exactly two columns:
 nonnegative BIGINT-compatible `checked_rows` and numeric-or-NULL `measured_value`.
 `onEmpty` is allowed only with `sql`: `evaluate` is the default; `no_data` produces
-NO_DATA for `checked_rows = 0` after technical validation. Empty row checks report
+NO_DATA for `checked_rows = 0` after result validation. Empty row checks report
 NO_DATA. The query relations are `{target}` and declared `{references.alias}`.
 A reference has exactly `entityId`, pointing to an active model entity.
 
@@ -103,7 +103,8 @@ The gate percentage is an optional finite number from 0 to 100 directly under
 `quality`. It counts distinct erroneous rows and fails strictly above the limit,
 after valid rows and audit metrics are written. Omission disables the gate.
 
-Solutions own their SQL capabilities, dialect translation, native rule generation
-and execution. DQX is not part of this schema. Unsupported constructs must fail
-explicitly. All configurations and examples use this contract directly; old
+Solutions own native rule configuration, table bindings and execution. DQX is not
+part of this schema. SQL syntax and expression errors can surface at execution;
+engines may not expose every invalid rule on empty input. All configurations and
+examples use this contract directly; old
 shapes are rejected without conversion or implicit compatibility.

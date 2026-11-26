@@ -83,11 +83,15 @@ Verify compatibility with actual consumer tests.
 
 `ModelEntity.quality` is optional. When present it requires a `checks` list (which
 may be empty). The closed contract has `maxFailureRatePct` and `references` as
-optional entity-wide fields. There are no free definition, settings or arguments
-objects and no check-type catalogue.
+optional entity-wide fields. Unknown fields are rejected; there is no check-type catalogue.
 
 Each check requires a stable `id`, `execution` (`enforcement` or `monitoring`) and
-a nonblank SQL `expression`. Optional fields are `severity` (`error` by default,
+a nonblank SQL `expression` **or** a nonblank native `function` name, exclusively.
+`arguments` is an optional JSON object allowed only with `function`. It can contain
+arbitrary nested JSON values and defaults to an empty object at execution when
+omitted. Names and arguments pass unchanged to the selected engine; function
+availability and argument semantics are runtime concerns, with no version allowlist.
+Optional shared fields are `severity` (`error` by default,
 or `warning`), `description`, `sql` and `onEmpty`. Expressions are passed unchanged
 to the target engine. NULL behavior follows that engine; express a desired failure
 on NULL explicitly, for example `COALESCE(Amount >= 0, FALSE)`.
@@ -103,8 +107,10 @@ The gate percentage is an optional finite number from 0 to 100 directly under
 `quality`. It counts distinct erroneous rows and fails strictly above the limit,
 after valid rows and audit metrics are written. Omission disables the gate.
 
-Solutions own native rule configuration, table bindings and execution. DQX is not
-part of this schema. SQL syntax and expression errors can surface at execution;
+Solutions own native rule configuration, table bindings and execution. The
+Databricks sample interprets native names as DQX functions. These names are not
+automatically portable to Microsoft Fabric; no translation is defined.
+SQL syntax, native function and argument errors can surface at execution;
 engines may not expose every invalid rule on empty input. All configurations and
 examples use this contract directly; old
 shapes are rejected without conversion or implicit compatibility.

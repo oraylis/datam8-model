@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://oraylis.de/datam8/schema/quality.json",
   "title": "Quality",
-  "description": "Fixed SQL quality contract. Solutions configure their target runtime and table bindings.",
+  "description": "Declarative SQL or native function quality checks. Solutions configure their target runtime and table bindings.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -53,9 +53,16 @@
       "additionalProperties": false,
       "required": [
         "id",
-        "execution",
-        "expression"
+        "execution"
       ],
+      "dependencies": {
+        "arguments": ["function"],
+        "sql": { "properties": { "execution": { "const": "monitoring" } } },
+        "onEmpty": {
+          "required": ["sql"],
+          "properties": { "execution": { "const": "monitoring" } }
+        }
+      },
       "properties": {
         "id": {
           "type": "string",
@@ -73,6 +80,17 @@
           "minLength": 1,
           "pattern": "\\S",
           "description": "Boolean SQL expression passed unchanged to the target engine. Define NULL handling explicitly, for example COALESCE(Amount >= 0, FALSE)."
+        },
+        "function": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Native function name passed unchanged to the target engine. Mutually exclusive with expression; function availability is validated by the runtime."
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Opaque native function arguments, including nested JSON values. Only with function; omitted arguments execute as an empty object."
         },
         "severity": {
           "type": "string",
@@ -100,30 +118,9 @@
           "description": "Only with sql. Defaults to evaluate; no_data reports NO_DATA when checked_rows is zero after result validation."
         }
       },
-      "if": {
-        "anyOf": [
-          {
-            "required": [
-              "sql"
-            ]
-          },
-          {
-            "required": [
-              "onEmpty"
-            ]
-          }
-        ]
-      },
-      "then": {
-        "required": [
-          "sql"
-        ],
-        "properties": {
-          "execution": {
-            "const": "monitoring"
-          }
-        }
-      }
+      "if": { "required": ["expression"] },
+      "then": { "not": { "required": ["function"] } },
+      "else": { "required": ["function"] }
     }
   }
 }

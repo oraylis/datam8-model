@@ -19,7 +19,7 @@ class QualitySchemaTests(unittest.TestCase):
                                            'onEmpty': 'no_data'}]})
 
     def test_unknown_and_old_fields_are_rejected(self):
-        for field in ['definition', 'type', 'arguments', 'function', 'parameters']:
+        for field in ['definition', 'type', 'parameters']:
             self.assertTrue(list(self.validator.iter_errors({'checks': [{**self.check, field: {}}]})), field)
         for field in ['settings', 'referenceDatasets', 'unknown']:
             self.assertTrue(list(self.validator.iter_errors({'checks': [], field: {}})), field)
@@ -46,3 +46,14 @@ class QualitySchemaTests(unittest.TestCase):
         for binding in [{}, {'entityId': -1}, {'entityId': True}, {'entityId': '12'}, {'entityId': 1, 'table': 'x'}]:
             self.assertTrue(list(self.validator.iter_errors({'checks': [], 'references': {'ref': binding}})), binding)
         self.assertTrue(list(self.validator.iter_errors({'checks': [], 'references': {'bad alias': {'entityId': 1}}})))
+
+    def test_native_definitions_are_opaque_and_exclusive(self):
+        native = {'id': 'native', 'execution': 'enforcement', 'function': 'future_dqx_function'}
+        for arguments in [{}, {'column': 'Id', 'nested': [None, True, 0, 1.25, 'text', {'values': []}]}]:
+            self.validator.validate({'checks': [{**native, 'arguments': arguments}]})
+        self.validator.validate({'checks': [native]})
+        self.validator.validate({'checks': [{**native, 'execution': 'monitoring', 'sql': 'SELECT 1', 'onEmpty': 'no_data'}]})
+        for patch in [{'expression': 'Id > 0'}, {'function': ''}, {'function': '  '},
+                      {'function': None}, {'function': 1}, {'arguments': []}, {'arguments': None}]:
+            self.assertTrue(list(self.validator.iter_errors({'checks': [{**native, **patch}]})), patch)
+        self.assertTrue(list(self.validator.iter_errors({'checks': [{**self.check, 'arguments': {}}]})))
